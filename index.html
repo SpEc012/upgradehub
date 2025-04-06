@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Hub | Premium Services at Regional Prices</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #6D28D9;
+            --secondary: #10B981;
+            --bg-dark: #111827;
+            --bg-light: #1F2937;
+            --text-light: #F9FAFB;
+            --text-gray: #9CA3AF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: var(--bg-light);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        main {
+            margin-top: 5rem;
+            padding: 2rem;
+        }
+        
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            gap: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        
+        .product-card {
+            background-color: var(--bg-light);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .product-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, var(--bg-light), transparent);
+        }
+        
+        .product-content {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+        
+        .promo-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .product-desc {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .savings {
+            display: inline-block;
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .features {
+            margin-bottom: 1.5rem;
+        }
+        
+        .features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-gray);
+        }
+        
+        .features li i {
+            color: var(--secondary);
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 2rem;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background-color: var(--bg-light);
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            position: relative;
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--text-light);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .product-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .product-image-large {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 0.5rem;
+        }
+        
+        .product-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-info .promo-price {
+            font-size: 2rem;
+        }
+        
+        .product-description {
+            margin: 1.5rem 0;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+        
+        .contact-options {
+            padding: 2rem;
+            text-align: center;
+            background-color: rgba(124, 58, 237, 0.1);
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-options h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .discord-btn {
+            background-color: #5865F2;
+            color: white;
+        }
+        
+        .telegram-btn {
+            background-color: #0088cc;
+            color: white;
+        }
+        
+        .contact-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .how-it-works {
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .how-it-works h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step {
+            background-color: var(--bg-light);
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .step h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .step p {
+            color: var(--text-gray);
+        }
+        
+        .faq {
+            padding: 4rem 0;
+        }
+        
+        .faq h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+            background-color: var(--bg-light);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--text-gray);
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 1000px;
+        }
+        
+        footer {
+            background-color: var(--bg-light);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+        }
+        
+        .copyright {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .product-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-arrow-up-right-dots"></i>
+            Upgrade Hub
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact" class="btn">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1 class="animate__animated animate__fadeIn">Premium Services at Regional Prices</h1>
+            <p class="animate__animated animate__fadeIn">Access your favorite premium services at a fraction of the cost. Upgrade Hub offers regional pricing benefits to everyone, anywhere.</p>
+            <a href="#products" class="btn animate__animated animate__bounceIn">
+                <i class="fas fa-shopping-cart"></i>
+                Explore Products
+            </a>
+        </section>
+        
+        <section id="products">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Popular Services</h2>
+            
+            <div class="products">
+                <div class="product-card" data-product="spotify">
+                    <div class="product-img" style="background-image: url('/api/placeholder/400/320')"></div>
+                    <div class="product-content">
+                        <span class="savings">Save 75%</span>
+                        <h3 class="product-title">Spotify Premium</h3>
+                        <div class="product-price">
+                            <span class="original-price">$99.99/year</span>
+                            <span class="promo-price">$25.00</span>
+                        </div>
+                        <p class="product-desc">Enjoy ad-free music with unlimited skips and offline listening for a full year.</p>
+                        <button class="btn view-product-btn" data-product="spotify">
+                            <i class="fas fa-info-circle"></i>
+                            Get Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product="youtube">
+                    <div class="product-img" style="background-image: url('/api/placeholder/400/320')"></div>
+                    <div class="product-content">
+                        <span class="savings">Save 71%</span>
+                        <h3 class="product-title">YouTube Premium</h3>
+                        <div class="product-price">
+                            <span class="original-price">$139.00/year</span>
+                            <span class="promo-price">$40.00</span>
+                        </div>
+                        <p class="product-desc">Watch videos ad-free, download for offline viewing, and enjoy YouTube Music.</p>
+                        <button class="btn view-product-btn" data-product="youtube">
+                            <i class="fas fa-info-circle"></i>
+                            Get Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product="canva">
+                    <div class="product-img" style="background-image: url('/api/placeholder/400/320')"></div>
+                    <div class="product-content">
+                        <span class="savings">Save 71%</span>
+                        <h3 class="product-title">Canva Pro</h3>
+                        <div class="product-price">
+                            <span class="original-price">$120.00/year</span>
+                            <span class="promo-price">$35.00</span>
+                        </div>
+                        <p class="product-desc">Access premium templates, photos, and features for your design projects.</p>
+                        <button class="btn view-product-btn" data-product="canva">
+                            <i class="fas fa-info-circle"></i>
+                            Get Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="how-it-works" class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </div>
+                    <h3>Choose a Service</h3>
+                    <p>Browse our catalog of premium services and select the one you're interested in.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Contact Us</h3>
+                    <p>Join our Discord, verify your account, and open a ticket to speak with our staff.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Complete Upgrade</h3>
+                    <p>Our staff will guide you through the upgrade process and provide all details.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3>Enjoy Premium</h3>
+                    <p>Start enjoying your premium service at a fraction of the regular price.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="faq" class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do regional prices work?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Regional pricing allows us to leverage different price points in various countries. We legally purchase subscriptions in regions with lower pricing and provide you with access, saving you money.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Is this legitimate and safe?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, our service is legitimate. We purchase official subscriptions from the service providers. Your account remains secure, and you get the full premium experience at a lower cost.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do I contact your team?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can contact us through our Discord server or Telegram. Join our Discord, verify your account, and create a support ticket. A staff member will assist you promptly.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How long does the upgrade process take?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Once you've contacted us, the upgrade process typically takes 24-48 hours. Our staff will guide you through every step and provide you with access as quickly as possible.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="contact-options">
+            <h3>Ready to upgrade your services?</h3>
+            <p>Contact our team through Discord or Telegram to get started with your premium upgrade.</p>
+            <div class="contact-buttons">
+                <a href="https://discord.gg/rb5DEqWBzg" class="contact-btn discord-btn" target="_blank">
+                    <i class="fab fa-discord"></i>
+                    Join our Discord
+                </a>
+                <a href="https://t.me/xhoecht" class="contact-btn telegram-btn" target="_blank">
+                    <i class="fab fa-telegram-plane"></i>
+                    Contact on Telegram
+                </a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">Home</a>
+            <a href="#products">Products</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p class="copyright">© 2025 Upgrade Hub. All rights reserved.</p>
+    </footer>
+    
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Product Details</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize animations on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            // Reveal animations on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.product-card, .step, .faq-item').forEach(item => {
+                observer.observe(item);
+            });
+            
+            // FAQ accordion
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    faqItem.classList.toggle('active');
+                });
+            });
+            
+            // Product modal functionality
+            const productModal = document.getElementById('productModal');
+            const modalBody = productModal.querySelector('.modal-body');
+            const closeModal = productModal.querySelector('.close-modal');
+            
+            // Product data
+            const productData = {
+                spotify: {
+                    title: 'Spotify Premium - 1 Year',
+                    originalPrice: '$99.99',
+                    promoPrice: '$25.00',
+                    image: '/api/placeholder/400/320',
+                    description: 'Spotify Premium gives you access to millions of songs without ad interruptions. Download your favorite tracks for offline listening, enjoy unlimited skips, and experience high-quality audio streaming.',
+                    features: [
+                        'Ad-free music listening',
+                        'Download songs for offline playback',
+                        'High quality audio (320kbps)',
+                        'Unlimited skips',
+                        'Play any song on-demand',
+                        'Valid for 12 months',
+                        'Works worldwide'
+                    ]
+                },
+                youtube: {
+                    title: 'YouTube Premium - 1 Year',
+                    originalPrice: '$139.00',
+                    promoPrice: '$40.00',
+                    image: '/api/placeholder/400/320',
+                    description: 'YouTube Premium lets you watch millions of videos without ads, download videos for offline viewing, and includes YouTube Music Premium for ad-free, uninterrupted music.',
+                    features: [
+                        'Ad-free video watching',
+                        'Background play on mobile devices',
+                        'Download videos for offline viewing',
+                        'Access to YouTube Music Premium',
+                        'YouTube Originals content',
+                        'Valid for 12 months',
+                        'Works worldwide'
+                    ]
+                },
+                canva: {
+                    title: 'Canva Pro - 1 Year',
+                    originalPrice: '$120.00',
+                    promoPrice: '$35.00',
+                    image: '/api/placeholder/400/320',
+                    description: 'Canva Pro gives you access to premium design elements, templates, and features. Create professional-looking graphics, presentations, social media posts, and more with the full Canva toolkit.',
+                    features: [
+                        '100+ million premium stock photos and graphics',
+                        '610,000+ premium templates',
+                        'Background remover tool',
+                        'Magic Resize feature',
+                        '100GB cloud storage',
+                        'Brand Kit for consistent branding',
+                        'Schedule social media content'
+                    ]
+                }
+            };
+            
+            // Open modal
+            document.querySelectorAll('.view-product-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const productId = btn.dataset.product;
+                    const product = productData[productId];
+                    
+                    // Populate modal with product details
+                    modalBody.innerHTML = `
+                        <div class="product-details">
+                            <div class="product-image-large" style="background-image: url('${product.image}')"></div>
+                            <div class="product-info">
+                                <h3>${product.title}</h3>
+                                <div class="product-price">
+                                    <span class="original-price">${product.originalPrice}/year</span>
+                                    <span class="promo-price">${product.promoPrice}</span>
+                                </div>
+                                <p class="product-description">${product.description}</p>
+                                <ul class="features">
+                                    ${product.features.map(feature => `<li><i class="fas fa-check"></i> ${feature}</li>`).join('')}
+                                </ul>
+                                <div class="contact-options">
+                                    <h3>Ready to upgrade?</h3>
+                                    <p>This is a landing page. To purchase this upgrade, please join our Discord server, verify your account, and open a ticket. Our staff will guide you through the process.</p>
+                                    <div class="contact-buttons">
+                                        <a href="https://discord.gg/rb5DEqWBzg" class="contact-btn discord-btn" target="_blank">
+                                            <i class="fab fa-discord"></i>
+                                            Join our Discord
+                                        </a>
+                                        <a href="https://t.me/xhoecht" class="contact-btn telegram-btn" target="_blank">
+                                            <i class="fab fa-telegram-plane"></i>
+                                            Contact on Telegram
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    productModal.classList.add('active');
+                });
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', () => {
+                productModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            productModal.addEventListener('click', (e) => {
+                if (e.target === productModal) {
+                    productModal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
