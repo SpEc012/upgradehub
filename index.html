@@ -119,7 +119,11 @@
             font-weight: 800;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            -moz-text-fill-color: transparent;
+            -o-text-fill-color: transparent;
+            -ms-text-fill-color: transparent;
             margin-bottom: 1rem;
         }
         
@@ -153,9 +157,31 @@
         
         .products {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             padding: 2rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 800px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                padding: 1rem;
+            }
+            
+            .product-card {
+                max-width: 100%;
+            }
         }
         
         .product-card {
@@ -350,6 +376,14 @@
         }
         
         .contact-options h3 {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-text-fill-color: transparent;
+            -o-text-fill-color: transparent;
+            -ms-text-fill-color: transparent;
+            font-size: 1.75rem;
             margin-bottom: 1rem;
         }
         
@@ -396,7 +430,11 @@
             margin-bottom: 2rem;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            -moz-text-fill-color: transparent;
+            -o-text-fill-color: transparent;
+            -ms-text-fill-color: transparent;
         }
         
         .steps {
@@ -438,7 +476,11 @@
             text-align: center;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            -moz-text-fill-color: transparent;
+            -o-text-fill-color: transparent;
+            -ms-text-fill-color: transparent;
         }
         
         .faq-item {
@@ -570,9 +612,9 @@
         </section>
         
         <section id="products">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Popular Services</h2>
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent; -o-text-fill-color: transparent; -ms-text-fill-color: transparent;">Popular Services</h2>
             
-            <div class="products">
+            <div class="products" data-aos="fade-up" data-aos-delay="300">
                 <div class="product-card" data-product="spotify">
                     <div class="product-img" style="background-image: url('https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/2024-spotify-brand-assets-media-kit.jpg')"></div>
                     <div class="product-content">
@@ -601,6 +643,57 @@
                         </div>
                         <p class="product-desc">Watch videos ad-free, download for offline viewing, and enjoy YouTube Music.</p>
                         <button class="btn view-product-btn" data-product="youtube">
+                            <i class="fas fa-info-circle"></i>
+                            Get Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product="disney">
+                    <div class="product-img" style="background-image: url('https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25357066/Disney__Logo_March_2024.png?quality=90&strip=all&crop=7.8125,0,84.375,100')"></div>
+                    <div class="product-content">
+                        <span class="savings">Save 37%</span>
+                        <h3 class="product-title">Disney+</h3>
+                        <div class="product-price">
+                            <span class="original-price">$100.00/year</span>
+                            <span class="promo-price">$63.00</span>
+                        </div>
+                        <p class="product-desc">Stream Disney, Pixar, Marvel, Star Wars, and National Geographic content ad-free.</p>
+                        <button class="btn view-product-btn" data-product="disney">
+                            <i class="fas fa-info-circle"></i>
+                            Get Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product="crunchyroll">
+                    <div class="product-img" style="background-image: url('https://cdn.thefpsreview.com/wp-content/uploads/2020/12/crunchyroll-logo-orange-background.jpg')"></div>
+                    <div class="product-content">
+                        <span class="savings">Save 70%</span>
+                        <h3 class="product-title">Crunchyroll</h3>
+                        <div class="product-price">
+                            <span class="original-price">$80.00/year</span>
+                            <span class="promo-price">$32.99</span>
+                        </div>
+                        <p class="product-desc">Watch ad-free anime with premium access to over 1,000 titles and simulcasts.</p>
+                        <button class="btn view-product-btn" data-product="crunchyroll">
+                            <i class="fas fa-info-circle"></i>
+                            Get Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product="nordvpn">
+                    <div class="product-img" style="background-image: url('https://cdn.mos.cms.futurecdn.net/XpxwMJDkGfJXQH8Viy8okN-1200-80.jpg')"></div>
+                    <div class="product-content">
+                        <span class="savings">Save 61%</span>
+                        <h3 class="product-title">NordVPN</h3>
+                        <div class="product-price">
+                            <span class="original-price">$70.00/year</span>
+                            <span class="promo-price">$27.00</span>
+                        </div>
+                        <p class="product-desc">Secure your online activity with military-grade encryption and access global content.</p>
+                        <button class="btn view-product-btn" data-product="nordvpn">
                             <i class="fas fa-info-circle"></i>
                             Get Now
                         </button>
@@ -833,6 +926,70 @@
                         'Brand Kit for consistent branding',
                         'Schedule social media content'
                     ]
+                },
+                disney: {
+                    title: 'Disney+ - 1 Year',
+                    originalPrice: '$100.00',
+                    promoPrice: '$63.00',
+                    image: 'https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25357066/Disney__Logo_March_2024.png?quality=90&strip=all&crop=7.8125,0,84.375,100',
+                    description: 'Disney+ gives you access to thousands of Disney, Pixar, Marvel, Star Wars, and National Geographic titles. Stream exclusive Disney+ Originals and new releases.',
+                    features: [
+                        'Ad-free streaming experience',
+                        'Exclusive Disney+ original content',
+                        'Download titles for offline viewing',
+                        'Stream on up to 4 devices simultaneously',
+                        'Create up to 7 profiles per account',
+                        'Valid for 12 months',
+                        'Works worldwide'
+                    ]
+                },
+                nordvpn: {
+                    title: 'NordVPN - 1 Year',
+                    originalPrice: '$70.00',
+                    promoPrice: '$27.00',
+                    image: 'https://cdn.mos.cms.futurecdn.net/XpxwMJDkGfJXQH8Viy8okN-1200-80.jpg',
+                    description: 'NordVPN offers military-grade encryption to protect your online privacy and security. Access global content, bypass geo-restrictions, and enjoy faster, safer browsing.',
+                    features: [
+                        'Military-grade encryption',
+                        'Strict no-logs policy',
+                        'Access to 5500+ servers in 60+ countries',
+                        'Connect up to 6 devices simultaneously',
+                        'Block ads and malicious websites',
+                        'Dedicated IP addresses available',
+                        'Works on all major platforms'
+                    ]
+                },
+                crunchyroll: {
+                    title: 'Crunchyroll',
+                    originalPrice: '$80.00',
+                    promoPrice: '$32.99',
+                    image: 'https://cdn.thefpsreview.com/wp-content/uploads/2020/12/crunchyroll-logo-orange-background.jpg',
+                    description: 'Crunchyroll Premium gives you ad-free access to the world\'s largest anime library including simulcasts, exclusives, and originals. Choose between two subscription tiers.',
+                    features: [
+                        'Ad-free anime streaming',
+                        'Access to all anime in the library',
+                        'Same-day as Japan simulcasts',
+                        'New episodes one hour after Japan premiere',
+                        'Watch on multiple devices',
+                        'Valid for 12 months',
+                        'Works worldwide'
+                    ],
+                    options: [
+                        {
+                            id: 'fan',
+                            name: 'Crunchyroll Premium (Fan)',
+                            originalPrice: '$80.00',
+                            promoPrice: '$32.99',
+                            description: 'Access all Crunchyroll content ad-free on 1 device at a time.'
+                        },
+                        {
+                            id: 'megafan',
+                            name: 'Crunchyroll Premium (Mega Fan)',
+                            originalPrice: '$120.00',
+                            promoPrice: '$39.99',
+                            description: 'Stream on 4 devices simultaneously, offline viewing, and exclusive merch discounts.'
+                        }
+                    ]
                 }
             };
             
@@ -843,18 +1000,186 @@
                     const product = productData[productId];
                     
                     // Populate modal with product details
-                    modalBody.innerHTML = `
-                        <div class="product-details">
+                    let modalContent = '';
+                    modalContent = `<div class="product-details">
                             <div class="product-image-large" style="background-image: url('${product.image}')"></div>
                             <div class="product-info">
-                                <h3>${product.title}</h3>
-                                <div class="product-price">
+                                <h3>${product.title}</h3>`;
+                    
+                    // Add this CSS for animations to the head section
+                    if (!document.getElementById('option-animations')) {
+                        const animationStyle = document.createElement('style');
+                        animationStyle.id = 'option-animations';
+                        animationStyle.textContent = `
+                            .option-select {
+                                position: relative;
+                                width: 100%;
+                                margin-bottom: 20px;
+                            }
+                            
+                            .option-select select {
+                                appearance: none;
+                                background-color: var(--bg-light);
+                                border: 2px solid var(--primary);
+                                border-radius: 8px;
+                                color: white;
+                                cursor: pointer;
+                                font-size: 16px;
+                                font-weight: 600;
+                                padding: 12px 36px 12px 16px;
+                                width: 100%;
+                                transition: all 0.3s ease;
+                            }
+                            
+                            .option-select select:hover {
+                                border-color: var(--secondary);
+                                box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+                            }
+                            
+                            .option-select select:focus {
+                                outline: none;
+                                border-color: var(--secondary);
+                                box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+                            }
+                            
+                            .option-select::after {
+                                content: '\f078';
+                                font-family: 'Font Awesome 5 Free';
+                                font-weight: 900;
+                                position: absolute;
+                                right: 16px;
+                                top: calc(50% + 40px);
+                                transform: translateY(-50%);
+                                color: var(--primary);
+                                pointer-events: none;
+                                transition: all 0.3s ease;
+                            }
+                            
+                            .option-select:hover::after {
+                                color: var(--secondary);
+                            }
+                            
+                            @keyframes priceChange {
+                                0% { transform: translateY(10px); opacity: 0; }
+                                100% { transform: translateY(0); opacity: 1; }
+                            }
+                            
+                            @keyframes optionFade {
+                                0% { opacity: 0; transform: translateY(5px); }
+                                100% { opacity: 1; transform: translateY(0); }
+                            }
+                            
+                            .price-animated {
+                                animation: priceChange 0.5s ease forwards;
+                            }
+                            
+                            .option-badge {
+                                display: inline-block;
+                                padding: 4px 10px;
+                                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                                border-radius: 20px;
+                                color: white;
+                                font-size: 12px;
+                                font-weight: 700;
+                                margin-left: 10px;
+                                vertical-align: middle;
+                                animation: optionFade 0.5s ease forwards;
+                            }
+                            
+                            .option-features {
+                                margin-top: 15px;
+                                padding: 12px;
+                                background-color: rgba(16, 185, 129, 0.1);
+                                border-left: 3px solid var(--secondary);
+                                border-radius: 4px;
+                                animation: optionFade 0.5s ease forwards;
+                            }
+                            
+                            .features {
+                                margin-top: 25px !important;
+                                list-style-type: none !important;
+                                padding: 0 !important;
+                            }
+                            
+                            .features li {
+                                margin-bottom: 12px;
+                                display: flex;
+                                align-items: flex-start;
+                                position: relative;
+                            }
+                            
+                            .features li i {
+                                color: var(--secondary);
+                                margin-right: 12px;
+                                background-color: rgba(16, 185, 129, 0.1);
+                                width: 24px;
+                                height: 24px;
+                                border-radius: 50%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 12px;
+                            }
+                            
+                            .features li span {
+                                flex: 1;
+                            }
+                        `;
+                        document.head.appendChild(animationStyle);
+                    }
+                    
+                    // Check if product has options (like Crunchyroll)
+                    if (product.options) {
+                        let selectedOption = product.options[0]; // Default to first option
+                        let optionsHtml = '';
+                        
+                        for (let i = 0; i < product.options.length; i++) {
+                            const option = product.options[i];
+                            const savings = Math.round(((parseFloat(option.originalPrice.replace('$', '')) - parseFloat(option.promoPrice.replace('$', ''))) / parseFloat(option.originalPrice.replace('$', ''))) * 100);
+                            optionsHtml += `<option value="${option.id}" data-savings="${savings}">${option.name}</option>`;
+                        }
+                        
+                        modalContent += `<div class="option-select">
+                                    <div style="margin-bottom: 8px; display: flex; align-items: center; flex-wrap: wrap;">
+                                        <span style="font-weight: 600; margin-right: 10px;">Select Subscription Plan:</span>
+                                        <span class="option-badge" style="background: linear-gradient(90deg, #3b82f6, #10b981); font-size: 11px;">Options Available</span>
+                                    </div>
+                                    <div style="position: relative; margin-bottom: 6px; text-align: center; background-color: rgba(124, 58, 237, 0.1); border-radius: 6px; padding: 6px 0;">
+                                        <span style="font-size: 14px; color: var(--secondary);"><i class="fas fa-hand-pointer" style="margin-right: 5px;"></i> Click below to change subscription option <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></span>
+                                    </div>
+                                    <select id="product-option-select">
+                                        ${optionsHtml}
+                                    </select>
+                                </div>
+                                <div id="option-details">
+                                    <div class="product-price price-animated">
+                                        <span class="original-price">${selectedOption.originalPrice}/year</span>
+                                        <span class="promo-price">${selectedOption.promoPrice}</span>
+                                        <span class="option-badge">Save ${Math.round(((parseFloat(selectedOption.originalPrice.replace('$', '')) - parseFloat(selectedOption.promoPrice.replace('$', ''))) / parseFloat(selectedOption.originalPrice.replace('$', ''))) * 100)}%</span>
+                                    </div>
+                                    <div class="option-features">
+                                        <p class="product-description">${selectedOption.description}</p>
+                                    </div>
+                                </div>`;
+                    } else {
+                        // Calculate savings percentage for regular products
+                        const originalPrice = parseFloat(product.originalPrice.replace('$', ''));
+                        const promoPrice = parseFloat(product.promoPrice.replace('$', ''));
+                        const savings = Math.round(((originalPrice - promoPrice) / originalPrice) * 100);
+                        
+                        modalContent += `<div class="product-price price-animated">
                                     <span class="original-price">${product.originalPrice}/year</span>
                                     <span class="promo-price">${product.promoPrice}</span>
+                                    <span class="option-badge">Save ${savings}%</span>
                                 </div>
-                                <p class="product-description">${product.description}</p>
+                                <div class="option-features">
+                                    <p class="product-description">${product.description}</p>
+                                </div>`;
+                    }
+                    
+                    modalContent += `
                                 <ul class="features">
-                                    ${product.features.map(feature => `<li><i class="fas fa-check"></i> ${feature}</li>`).join('')}
+                                    ${product.features.map(feature => `<li><i class="fas fa-check"></i> <span>${feature}</span></li>`).join('')}
                                 </ul>
                                 <div class="contact-options">
                                     <h3>Ready to upgrade?</h3>
@@ -873,6 +1198,42 @@
                             </div>
                         </div>
                     `;
+                    
+                    modalBody.innerHTML = modalContent;
+                    
+                    // Add event listener for product option select if it exists
+                    const optionSelect = document.getElementById('product-option-select');
+                    if (optionSelect && product.options) {
+                        optionSelect.addEventListener('change', function() {
+                            const selectedOptionId = this.value;
+                            const selectedOption = product.options.find(opt => opt.id === selectedOptionId);
+                            const optionDetails = document.getElementById('option-details');
+                            const savings = this.options[this.selectedIndex].getAttribute('data-savings');
+                            
+                            // First remove content with a fade out effect
+                            optionDetails.style.opacity = '0';
+                            optionDetails.style.transform = 'translateY(10px)';
+                            optionDetails.style.transition = 'all 0.3s ease';
+                            
+                            setTimeout(() => {
+                                // Update content after fade out
+                                optionDetails.innerHTML = `
+                                    <div class="product-price price-animated">
+                                        <span class="original-price">${selectedOption.originalPrice}/year</span>
+                                        <span class="promo-price">${selectedOption.promoPrice}</span>
+                                        <span class="option-badge">Save ${savings}%</span>
+                                    </div>
+                                    <div class="option-features">
+                                        <p class="product-description">${selectedOption.description}</p>
+                                    </div>
+                                `;
+                                
+                                // Fade in the new content
+                                optionDetails.style.opacity = '1';
+                                optionDetails.style.transform = 'translateY(0)';
+                            }, 200); // Short delay before showing new content
+                        });
+                    }
                     productModal.classList.add('active');
                 });
             });
