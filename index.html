@@ -411,12 +411,13 @@
                 transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
                 justify-content: flex-start;
                 align-items: center;
-                z-index: 100;
+                z-index: 999;
                 box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
             }
             
             nav ul.active {
-                left: 0;
+                left: 0 !important;
+                display: flex !important;
             }
             
             nav ul li {
@@ -1777,41 +1778,248 @@
             <div class="modal-body">
                 <!-- Content will be dynamically inserted here -->
             </div>
+            <div class="modal-footer">
+                <button class="mobile-close-btn">Close</button>
+            </div>
         </div>
     </div>
     
-    <script>
-        // Initialize AOS (Animate On Scroll)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize hamburger menu functionality
-            const hamburger = document.getElementById('hamburger');
-            const navMenu = document.getElementById('nav-menu');
-            
-            if (hamburger && navMenu) {
-                hamburger.addEventListener('click', function() {
-                    hamburger.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-                });
-                
-                // Close mobile menu when clicking a link
-                document.querySelectorAll('.nav-link, .btn').forEach(link => {
-                    link.addEventListener('click', function() {
-                        hamburger.classList.remove('active');
-                        navMenu.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
-                });
-                
-                // Close mobile menu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!hamburger.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('active')) {
-                        hamburger.classList.remove('active');
-                        navMenu.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                });
+    <style>
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow-x: hidden;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-content {
+            position: relative;
+            background-color: var(--bg-dark);
+            margin: 5vh auto;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(90deg, rgba(124, 58, 237, 0.1), rgba(45, 212, 191, 0.1));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            overflow: visible;
+        }
+        
+        .modal-title {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            display: none;
+            position: sticky;
+            bottom: 0;
+            background-color: var(--bg-dark);
+        }
+        
+        .close-modal {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-close-btn {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                max-height: 100%;
+                border-radius: 0;
             }
+            
+            .modal-header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .modal-title {
+                font-size: 1.25rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+            }
+            
+            .modal-footer {
+                display: block;
+                padding: 1rem;
+            }
+            
+            .mobile-close-btn {
+                display: block;
+            }
+            
+            .product-details {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .product-image-large {
+                height: 150px !important;
+                width: 100% !important;
+                flex: none !important;
+                margin-bottom: 1rem !important;
+                border-radius: 12px !important;
+            }
+            
+            .product-info {
+                padding-left: 0 !important;
+            }
+            
+            .price-container {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+            }
+            
+            .original-price {
+                margin-bottom: 0.5rem !important;
+                margin-right: 0 !important;
+            }
+        }
+    </style>
+    
+    <script>
+        // Initialize AOS (Animate On Scroll) and handle mobile menu
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu fix - must be executed immediately
+            window.setTimeout(function() {
+                initMobileMenu();
+            }, 100);
+            // Initialize hamburger menu functionality
+            function initMobileMenu() {
+                const hamburger = document.getElementById('hamburger');
+                const navMenu = document.getElementById('nav-menu');
+                
+                if (hamburger && navMenu) {
+                    console.log('Menu elements found:', {hamburger, navMenu});
+                    
+                    // Force clean initial state
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    navMenu.style.display = 'flex';
+                    navMenu.style.left = '-100%';
+                    
+                    hamburger.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        
+                        // Toggle active classes
+                        hamburger.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                        
+                        // Force menu visibility
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.style.left = '0';
+                            document.body.style.overflow = 'hidden';
+                            console.log('Menu opened');
+                        } else {
+                            navMenu.style.left = '-100%';
+                            document.body.style.overflow = '';
+                            console.log('Menu closed');
+                        }
+                    });
+                    
+                    // Close mobile menu when clicking a link
+                    document.querySelectorAll('#nav-menu .nav-link, #nav-menu .btn').forEach(link => {
+                        link.addEventListener('click', function() {
+                            hamburger.classList.remove('active');
+                            navMenu.classList.remove('active');
+                            navMenu.style.left = '-100%';
+                            document.body.style.overflow = '';
+                        });
+                    });
+                    
+                    // Close mobile menu when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!hamburger.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('active')) {
+                            hamburger.classList.remove('active');
+                            navMenu.classList.remove('active');
+                            navMenu.style.left = '-100%';
+                            document.body.style.overflow = '';
+                            console.log('Closing mobile menu by outside click');
+                        }
+                    });
+                }
+            }
+            
+            // Initialize mobile menu
+            initMobileMenu();
             
             // Initialize AOS (Animate On Scroll)
             AOS.init({
@@ -2031,6 +2239,25 @@
                 }
             };
             
+            // Product card click functionality
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const productId = this.dataset.product;
+                    const viewBtn = this.querySelector('.view-product-btn');
+                    if (viewBtn) {
+                        viewBtn.click();
+                    }
+                });
+            });
+            
+            // Handle back button navigation for modal
+            window.addEventListener('popstate', function(event) {
+                if (productModal.style.display === 'block') {
+                    productModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+            
             // Open modal
             document.querySelectorAll('.view-product-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -2049,118 +2276,79 @@
                         const animationStyle = document.createElement('style');
                         animationStyle.id = 'option-animations';
                         animationStyle.textContent = `
-                            .option-select {
-                                position: relative;
+                            .product-details {
                                 width: 100%;
-                                margin-bottom: 20px;
-                            }
-                            
-                            .option-select select {
-                                appearance: none;
-                                background-color: var(--bg-light);
-                                border: 2px solid var(--primary);
-                                border-radius: 8px;
-                                color: white;
-                                cursor: pointer;
-                                font-size: 16px;
-                                font-weight: 600;
-                                padding: 12px 36px 12px 16px;
-                                width: 100%;
-                                transition: all 0.3s ease;
-                            }
-                            
-                            .option-select select:hover {
-                                border-color: var(--secondary);
-                                box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
-                            }
-                            
-                            .option-select select:focus {
-                                outline: none;
-                                border-color: var(--secondary);
-                                box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-                            }
-                            
-                            .option-select::after {
-                                content: '\f078';
-                                font-family: 'Font Awesome 5 Free';
-                                font-weight: 900;
-                                position: absolute;
-                                right: 16px;
-                                top: calc(50% + 40px);
-                                transform: translateY(-50%);
-                                color: var(--primary);
-                                pointer-events: none;
-                                transition: all 0.3s ease;
-                            }
-                            
-                            .option-select:hover::after {
-                                color: var(--secondary);
-                            }
-                            
-                            @keyframes priceChange {
-                                0% { transform: translateY(10px); opacity: 0; }
-                                100% { transform: translateY(0); opacity: 1; }
-                            }
-                            
-                            @keyframes optionFade {
-                                0% { opacity: 0; transform: translateY(5px); }
-                                100% { opacity: 1; transform: translateY(0); }
-                            }
-                            
-                            .price-animated {
-                                animation: priceChange 0.5s ease forwards;
-                            }
-                            
-                            .option-badge {
-                                display: inline-block;
-                                padding: 4px 10px;
-                                background: linear-gradient(90deg, var(--primary), var(--secondary));
-                                border-radius: 20px;
-                                color: white;
-                                font-size: 12px;
-                                font-weight: 700;
-                                margin-left: 10px;
-                                vertical-align: middle;
-                                animation: optionFade 0.5s ease forwards;
-                            }
-                            
-                            .option-features {
-                                margin-top: 15px;
-                                padding: 12px;
-                                background-color: rgba(16, 185, 129, 0.1);
-                                border-left: 3px solid var(--secondary);
-                                border-radius: 4px;
-                                animation: optionFade 0.5s ease forwards;
-                            }
-                            
-                            .features {
-                                margin-top: 25px !important;
-                                list-style-type: none !important;
-                                padding: 0 !important;
-                            }
-                            
-                            .features li {
-                                margin-bottom: 12px;
                                 display: flex;
-                                align-items: flex-start;
-                                position: relative;
+                                gap: 1.5rem;
                             }
                             
-                            .features li i {
-                                color: var(--secondary);
-                                margin-right: 12px;
-                                background-color: rgba(16, 185, 129, 0.1);
-                                width: 24px;
-                                height: 24px;
-                                border-radius: 50%;
+                            .product-image-large {
+                                flex: 0 0 40%;
+                                height: 280px;
+                                background-size: cover;
+                                background-position: center;
+                                border-radius: 12px;
+                                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+                            }
+                            
+                            .product-info {
+                                flex: 1;
+                                padding-left: 1rem;
+                            }
+                            
+                            .product-info h3 {
+                                font-size: 1.6rem;
+                                margin-bottom: 1rem;
+                                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                                -webkit-background-clip: text;
+                                background-clip: text;
+                                -webkit-text-fill-color: transparent;
+                                font-weight: 700;
+                            }
+                            
+                            .product-info p {
+                                color: var(--text-gray);
+                                line-height: 1.6;
+                                margin-bottom: 1.5rem;
+                                font-size: 0.95rem;
+                            }
+                            
+                            .price-container {
                                 display: flex;
                                 align-items: center;
-                                justify-content: center;
-                                font-size: 12px;
+                                justify-content: space-between;
+                                margin-bottom: 1.5rem;
+                                background-color: rgba(124, 58, 237, 0.1);
+                                padding: 1rem;
+                                border-radius: 8px;
                             }
                             
-                            .features li span {
-                                flex: 1;
+                            .price-row {
+                                display: flex;
+                                align-items: center;
+                            }
+                            
+                            .original-price {
+                                text-decoration: line-through;
+                                color: var(--text-gray);
+                                font-size: 1.1rem;
+                                margin-right: 1rem;
+                            }
+                            
+                            .promo-price {
+                                font-size: 1.6rem;
+                                font-weight: 700;
+                                color: var(--secondary);
+                            }
+                            
+                            .savings {
+                                background-color: rgba(16, 185, 129, 0.2);
+                                color: var(--secondary);
+                                padding: 0.4rem 0.8rem;
+                                border-radius: 20px;
+                                font-weight: 600;
+                                font-size: 0.85rem;
+                                white-space: nowrap;
                             }
                         `;
                         document.head.appendChild(animationStyle);
@@ -2215,26 +2403,39 @@
                         } else {
                             // Regular option dropdown for other products like Crunchyroll
                             modalContent += `<div class="option-select">
-                                <div style="margin-bottom: 8px; display: flex; align-items: center; flex-wrap: wrap;">
-                                    <span style="font-weight: 600; margin-right: 10px;">Select Subscription Plan:</span>
-                                    <span class="option-badge" style="background: linear-gradient(90deg, #3b82f6, #10b981); font-size: 11px;">Options Available</span>
+                                <div style="margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                                    <h4 style="margin: 0; color: white;">Select Subscription Plan:</h4>
+                                    <span class="option-badge" style="background: linear-gradient(90deg, var(--primary), var(--secondary)); font-size: 12px; padding: 4px 10px; border-radius: 20px; color: white;">Options Available</span>
                                 </div>
-                                <div style="position: relative; margin-bottom: 6px; text-align: center; background-color: rgba(124, 58, 237, 0.1); border-radius: 6px; padding: 6px 0;">
-                                    <span style="font-size: 14px; color: var(--secondary);"><i class="fas fa-hand-pointer" style="margin-right: 5px;"></i> Click below to change subscription option <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></span>
-                                </div>
-                                <select id="product-option-select">
+                                <select id="product-option-select" style="width: 100%; padding: 12px; background-color: var(--bg-light); color: white; border: 2px solid var(--primary); border-radius: 8px; font-weight: 600; margin-bottom: 20px; overflow: hidden; text-overflow: ellipsis; appearance: none;">
                                     ${optionsHtml}
                                 </select>
+                                <style>
+                                    select {
+                                        appearance: none;
+                                        -webkit-appearance: none;
+                                        -moz-appearance: none;
+                                        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><path d="M0 0l6 6 6-6z" fill="white"/></svg>');
+                                        background-repeat: no-repeat;
+                                        background-position: right 12px center;
+                                        padding-right: 30px;
+                                    }
+                                    select::-ms-expand {
+                                        display: none;
+                                    }
+                                </style>
                             </div>`;
                         }
                         
                         if (product.id !== 'netflix') {
                             modalContent += `
                                 <div id="option-details">
-                                    <div class="product-price price-animated">
-                                        <span class="original-price">${selectedOption.originalPrice}/year</span>
-                                        <span class="promo-price">${selectedOption.promoPrice}</span>
-                                        <span class="option-badge">Save ${Math.round(((parseFloat(selectedOption.originalPrice.replace('$', '')) - parseFloat(selectedOption.promoPrice.replace('$', ''))) / parseFloat(selectedOption.originalPrice.replace('$', ''))) * 100)}%</span>
+                                    <div class="price-container">
+                                        <div class="price-row">
+                                            <span class="original-price">${selectedOption.originalPrice}/year</span>
+                                            <span class="promo-price">${selectedOption.promoPrice}</span>
+                                        </div>
+                                        <span class="savings">Save ${Math.round(((parseFloat(selectedOption.originalPrice.replace('$', '')) - parseFloat(selectedOption.promoPrice.replace('$', ''))) / parseFloat(selectedOption.originalPrice.replace('$', ''))) * 100)}%</span>
                                     </div>
                                     <div class="option-features">
                                         <p class="product-description">${selectedOption.description}</p>
@@ -2248,10 +2449,13 @@
                         const promoPrice = parseFloat(product.promoPrice.replace('$', ''));
                         const savings = Math.round(((originalPrice - promoPrice) / originalPrice) * 100);
                         
-                        modalContent += `<div class="product-price price-animated">
-                                    <span class="original-price">${product.originalPrice}/year</span>
-                                    <span class="promo-price">${product.promoPrice}</span>
-                                    <span class="option-badge">Save ${savings}%</span>
+                        modalContent += `
+                                <div class="price-container">
+                                    <div class="price-row">
+                                        <span class="original-price">${product.originalPrice}/year</span>
+                                        <span class="promo-price">${product.promoPrice}</span>
+                                    </div>
+                                    <span class="savings" style="position: relative; z-index: 5;">Save ${savings}%</span>
                                 </div>
                                 <div class="option-features">
                                     <p class="product-description">${product.description}</p>
@@ -2280,7 +2484,16 @@
                         </div>
                     `;
                     
+                    // Display the modal
+                    productModal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
                     modalBody.innerHTML = modalContent;
+                    
+                    // Force scroll to top for mobile
+                    modalBody.scrollTop = 0;
+                    
+                    // Add history state to handle back button
+                    history.pushState({modal: true}, '', window.location.href);
                     
                     // Add event listener for product option select if it exists
                     // Handle regular dropdown options (Crunchyroll)
@@ -2300,10 +2513,12 @@
                             setTimeout(() => {
                                 // Update content after fade out
                                 optionDetails.innerHTML = `
-                                    <div class="product-price price-animated">
-                                        <span class="original-price">${selectedOption.originalPrice}/year</span>
-                                        <span class="promo-price">${selectedOption.promoPrice}</span>
-                                        <span class="option-badge">Save ${savings}%</span>
+                                    <div class="price-container">
+                                        <div class="price-row">
+                                            <span class="original-price">${selectedOption.originalPrice}/year</span>
+                                            <span class="promo-price">${selectedOption.promoPrice}</span>
+                                        </div>
+                                        <span class="savings">Save ${savings}%</span>
                                     </div>
                                     <div class="option-features">
                                         <p class="product-description">${selectedOption.description}</p>
@@ -2360,16 +2575,34 @@
                 });
             });
             
-            // Close modal
-            closeModal.addEventListener('click', () => {
-                productModal.classList.remove('active');
+            // Initialize modal functionality
+            if (closeModal) {
+                closeModal.addEventListener('click', () => {
+                    productModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Close modal via mobile close button
+            const mobileCloseBtn = document.querySelector('.mobile-close-btn');
+            if (mobileCloseBtn) {
+                mobileCloseBtn.addEventListener('click', () => {
+                    productModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Close modal when clicking outside the content
+            window.addEventListener('click', function(event) {
+                if (event.target === productModal) {
+                    productModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
             });
             
-            // Close modal when clicking outside
-            productModal.addEventListener('click', (e) => {
-                if (e.target === productModal) {
-                    productModal.classList.remove('active');
-                }
+            // Prevent modal content clicks from closing the modal
+            document.querySelector('.modal-content').addEventListener('click', function(event) {
+                event.stopPropagation();
             });
             
             // Scroll to top button functionality
