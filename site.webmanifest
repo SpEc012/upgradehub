@@ -1,0 +1,39 @@
+{
+  "name": "Upgrade Hub",
+  "short_name": "UpgradeHub",
+  "description": "Premium yearly subscriptions at regional prices",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#7C3AED",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["shopping", "subscription", "premium services"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "View Products",
+      "url": "/index.html#products"
+    },
+    {
+      "name": "Contact Us",
+      "url": "/index.html#contact"
+    }
+  ]
+}
