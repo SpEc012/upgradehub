@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Upgrade Hub — All Premium Subscriptions & Discord Boosts</title>
+    <meta name="description"
+        content="Every Upgrade Hub product, one page. Spotify, Netflix, YouTube Premium, Amazon Prime Video, HBO Max, Peacock, Paramount+, Disney+, Adobe Creative Cloud, Crunchyroll, NordVPN, McAfee and Discord Server Boosts.">
+    <link rel="canonical" href="https://upgradehub.lol/pricing/">
+
+    <meta property="og:title" content="Pricing | Upgrade Hub — Full Catalog">
+    <meta property="og:description"
+        content="Browse every premium subscription and Discord boost pack. Tap any card to see full plan details.">
+    <meta property="og:url" content="https://upgradehub.lol/pricing/">
+    <meta property="og:image" content="https://upgradehub.lol/Rews.gif">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#7C3AED">
+
+    <link rel="icon" href="https://spec012.github.io/upgradehub/favicon.ico">
+    <link rel="apple-touch-icon" href="https://spec012.github.io/upgradehub/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <div class="cosmos" aria-hidden="true"></div>
+    <canvas id="starfield" aria-hidden="true"></canvas>
+
+    <header>
+        <nav class="nav" data-nav>
+            <a class="nav__brand" href="../index.html">
+                <span class="nav__brand-icon">
+                    <i class="fas fa-arrow-trend-up" aria-hidden="true"></i>
+                </span>
+                Upgrade Hub
+            </a>
+            <div class="nav__links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#featured">Featured</a>
+                <a href="../pricing.html">All Pricing</a>
+                <a href="../index.html#how">How it works</a>
+                <a href="../index.html#faq">FAQ</a>
+            </div>
+            <button class="nav__toggle" type="button" data-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+                Menu
+            </button>
+            <a class="btn" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
+                <i class="fab fa-discord" aria-hidden="true"></i> Open ticket
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero pricing-hero">
+            <div class="hero__inner">
+                <span class="hero__eyebrow" data-reveal>
+                    <span class="pulse-dot"></span>
+                    Full catalog · 14 products live
+                </span>
+                <h1 class="hero__title" data-reveal data-reveal-delay="1">
+                    Every drop, <span class="gradient-text">one page.</span>
+                </h1>
+                <p class="hero__text" data-reveal data-reveal-delay="2">
+                    Streaming, music, creative suites, anime, security and Discord boosts. Filter by category, tap any
+                    card for the full breakdown — pricing is transparent and locked in for the full term.
+                </p>
+                <div class="hero__actions" data-reveal data-reveal-delay="3">
+                    <a class="btn btn--lg" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
+                        <i class="fab fa-discord" aria-hidden="true"></i> Open a ticket
+                    </a>
+                    <a class="btn btn--ghost btn--lg" href="https://t.me/xhoec" target="_blank" rel="noreferrer">
+                        <i class="fab fa-telegram-plane" aria-hidden="true"></i> Telegram DM
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="catalog" style="padding-top:1rem;">
+            <div class="section-shell">
+                <div class="filter-bar" data-filter-bar data-reveal>
+                    <button class="filter-chip active" data-filter="all" type="button">All</button>
+                    <button class="filter-chip" data-filter="streaming" type="button">Streaming</button>
+                    <button class="filter-chip" data-filter="music" type="button">Music & Video</button>
+                    <button class="filter-chip" data-filter="creative" type="button">Creative</button>
+                    <button class="filter-chip" data-filter="security" type="button">Security</button>
+                    <button class="filter-chip" data-filter="discord" type="button">Discord</button>
+                </div>
+
+                <div class="product-grid" data-product-grid="all" data-products="all" data-filterable></div>
+
+                <div class="show-more" data-reveal style="margin-top:4rem;">
+                    <h3>Need a custom drop?</h3>
+                    <p>Enterprise seats, more than 14 boosts, or a service we haven't listed yet? Open a ticket and
+                        we'll spin it up the same day.</p>
+                    <a class="btn btn--lg" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
+                        <i class="fab fa-discord" aria-hidden="true"></i> Talk to us on Discord
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta" id="contact">
+            <div class="section-shell">
+                <div class="cta-card" data-reveal>
+                    <h2>Lock in your upgrade</h2>
+                    <p>All plans come with full-term warranty. Drop a ticket, pay, and you'll be streaming or boosting
+                        in minutes.</p>
+                    <div class="hero__actions">
+                        <a class="btn btn--lg" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
+                            <i class="fab fa-discord" aria-hidden="true"></i> Join Discord
+                        </a>
+                        <a class="btn btn--ghost btn--lg" href="https://t.me/xhoec" target="_blank" rel="noreferrer">
+                            <i class="fab fa-telegram-plane" aria-hidden="true"></i> Telegram DM
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../index.html#featured">Featured</a>
+            <a href="../pricing.html">All Pricing</a>
+            <a href="../index.html#how">How it works</a>
+            <a href="../index.html#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="socials">
+            <a href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer" aria-label="Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="https://t.me/xhoec" target="_blank" rel="noreferrer" aria-label="Telegram">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="https://www.tiktok.com/@upgradehub00" target="_blank" rel="noreferrer" aria-label="TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+        <p>© <span id="year">2026</span> Upgrade Hub · Regional pricing experts.</p>
+    </footer>
+
+    <div class="modal" data-product-modal>
+        <div class="modal__panel">
+            <div class="modal__head">
+                <h3 data-modal-title>Loading...</h3>
+                <button class="modal__close" data-close-modal aria-label="Close product modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal__body">
+                <!-- populated by site.js -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/products.js"></script>
+    <script src="../assets/js/site.js"></script>
+</body>
+
+</html>
