@@ -1,11 +1,11 @@
 window.productCatalog = {
     spotify: {
         id: 'spotify',
-        name: 'Spotify Premium Family',
-        category: 'Music • 6 seats',
+        name: 'Spotify Premium Individual',
+        category: 'Music • Solo plan',
         label: '12-Month Plan',
-        summary: 'Ad-free music, downloads and six premium slots tied to your email.',
-        description: 'Stream everything in 320kbps, manage six premium seats under one plan, and keep your own email + password. We create the region switch, you just log in and enjoy.',
+        summary: 'Ad-free music, unlimited skips and offline downloads on your own personal account.',
+        description: 'Your own dedicated Spotify Premium Individual subscription tied to your own email and password. Stream in 320kbps, download playlists for offline, and skip whatever you want — no shared accounts, no family seats, just yours.',
         image: 'https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/2024-spotify-brand-assets-media-kit.jpg',
         badge: 'Save 75%',
         accent: '#1DB954',
@@ -14,20 +14,21 @@ window.productCatalog = {
         originalPrice: 119.88,
         billingLabel: '/yr',
         features: [
-            'Six full Premium seats linked to your own profiles',
-            'Ad-free streaming, downloads and offline mode',
+            'Personal Spotify Premium Individual account',
+            'Ad-free streaming + unlimited skips',
+            'Download tracks, albums and playlists for offline',
+            'High-quality audio (up to 320kbps)',
             'Works worldwide on every device',
-            'Instant delivery with on-screen walkthrough',
-            '12 months of protection + refresh support'
+            '12 months of coverage + refresh support'
         ],
         plans: [
             {
                 id: 'year',
-                label: '12 Months • Family',
+                label: '12 Months • Individual',
                 promoPrice: 30,
                 originalPrice: 119.88,
                 billingLabel: '/yr',
-                description: 'Full year of Spotify Premium Family access (6 accounts). Includes refreshes if needed.'
+                description: 'Full year of Spotify Premium Individual on your own account. Includes refreshes if needed.'
             }
         ],
         cta: 'Reserve Spotify'
@@ -110,7 +111,7 @@ window.productCatalog = {
         label: 'New Drop',
         summary: 'Prime Originals, sports, regional catalogs and global library access.',
         description: 'Prime Video plus the core Prime membership delivered through regional pricing. Watch The Boys, Fallout, Reacher, LOL and the full global catalog. Works on Fire TV, consoles, mobile and web.',
-        image: 'https://m.media-amazon.com/images/I/71q6X5QVGPL._AC_UF1000,1000_QL80_.jpg',
+        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F019%2F040%2F292%2Foriginal%2Famazon-prime-video-logo-editorial-free-vector.jpg&f=1&nofb=1&ipt=d7c93481a7e331257faefbcfd45c2d079c0343fbed22fdd4843831e30f4efd28',
         badge: 'Save 78%',
         accent: '#00A8E1',
         featuredPlan: 'year',
@@ -185,7 +186,7 @@ window.productCatalog = {
         label: 'New Drop',
         summary: 'House of the Dragon, The Last of Us, Succession, Warner movies week-of-release.',
         description: 'The full HBO Max Ultimate tier with 4K UHD, Dolby Atmos, downloads and ad-free streaming on every device. Linked to your own email so HBO billing shows the plan natively.',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/HBO_Max_Logo.svg/2560px-HBO_Max_Logo.svg.png',
+        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.hdqwalls.com%2Fwallpapers%2Fhbo-max-logo-fp.jpg&f=1&nofb=1&ipt=bd44d887887e064c7868ea9f34075b9223d9272fcb9148d40b8f9da71bc2b78e',
         badge: 'Save 77%',
         accent: '#9b6bff',
         featuredPlan: 'year',
@@ -218,7 +219,7 @@ window.productCatalog = {
         label: 'New Drop',
         summary: 'NFL Sunday Night, WWE, NBC originals and live sports — all ad-free.',
         description: 'Peacock Premium Plus gives you the full library ad-free, downloads for offline, and access to NBC live channels including major sports streams and exclusive WWE PLEs.',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/NBCUniversal_Peacock_Logo.svg/2560px-NBCUniversal_Peacock_Logo.svg.png',
+        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.peacocktv.com%2Fdam%2Fcommerce%2Fassets%2Fpartners%2Flogo-peacock-social-1200x628.jpg&f=1&nofb=1&ipt=770118bf7df8b82cd834799c19b32d7c8e36f9516324e571448a1903776216c5',
         badge: 'Save 73%',
         accent: '#ffb84d',
         featuredPlan: 'year',
@@ -251,7 +252,7 @@ window.productCatalog = {
         label: 'New Drop',
         summary: 'Paramount+ + SHOWTIME bundle. Yellowstone, Star Trek, NFL on CBS and SHOWTIME originals.',
         description: 'The top-tier Paramount+ plan with SHOWTIME bundled in. Includes live CBS, SHOWTIME originals like Dexter and Billions, full NFL on CBS, UEFA Champions League and the entire Paramount catalog.',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Plus.svg/2560px-Paramount_Plus.svg.png',
+        image: 'https://i0.wp.com/www.thewrap.com/wp-content/uploads/2023/06/paramount-plus-showtime.jpg?fit=990%2C557&quality=89&ssl=1',
         badge: 'Save 64%',
         accent: '#0064ff',
         featuredPlan: 'year',
