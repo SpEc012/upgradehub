@@ -68,16 +68,28 @@ html {
     scroll-padding-top: 84px;
 }
 
+html { background: var(--bg); }
+
 body {
     margin: 0;
     font-family: var(--font);
     font-size: 16px;
     line-height: 1.6;
     color: var(--text);
-    background: var(--bg);
+    background: transparent; /* stars canvas sits behind the body */
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
+
+/* subtle starfield — dark theme only */
+.stars {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+:root[data-theme='light'] .stars { display: none; }
 
 body.modal-open { overflow: hidden; }
 
@@ -242,13 +254,48 @@ img, svg { display: block; }
 }
 
 .brand__mark {
+    position: relative;
     display: grid;
     place-items: center;
     width: 32px;
     height: 32px;
     border-radius: 9px;
-    background: var(--accent);
+    background: linear-gradient(135deg, #9377ff 0%, var(--accent) 55%, var(--accent-strong) 100%);
     color: #fff;
+    box-shadow: 0 3px 12px rgba(124, 92, 255, 0.4);
+    overflow: hidden;
+    transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+/* soft shine that sweeps across the mark */
+.brand__mark::after {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -80%;
+    width: 55%;
+    height: 220%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: rotate(18deg) translateX(0);
+    animation: brand-shine 6s var(--ease) infinite;
+}
+
+@keyframes brand-shine {
+    0%, 78% { left: -80%; }
+    92%, 100% { left: 160%; }
+}
+
+.brand__mark svg { transition: transform 0.25s var(--ease); }
+
+.brand:hover .brand__mark {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 18px rgba(124, 92, 255, 0.55);
+}
+
+.brand:hover .brand__mark svg { transform: translateY(-1.5px); }
+
+@media (prefers-reduced-motion: reduce) {
+    .brand__mark::after { animation: none; }
 }
 
 .nav {

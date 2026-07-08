@@ -43,6 +43,107 @@
             '</span>';
     }
 
+    /* ---------------- starfield (subtle, dark theme only) ---------------- */
+    function initStars() {
+        var canvas = document.querySelector('[data-stars]');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var stars = [];
+        var meteors = [];
+        var width = 0;
+        var height = 0;
+        var running = false;
+        var meteorTimer = 0;
+
+        function resize() {
+            var dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            seed();
+            if (!running) draw(true);
+        }
+
+        function seed() {
+            var count = Math.min(110, Math.floor((width * height) / 16000));
+            stars = [];
+            for (var i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 1.1 + 0.3,
+                    tint: Math.random() < 0.12 ? '167,139,250' : '235,238,255',
+                    phase: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.008 + 0.003
+                });
+            }
+        }
+
+        function spawnMeteor() {
+            meteors.push({
+                x: Math.random() * width * 0.8 + width * 0.1,
+                y: Math.random() * height * 0.3,
+                len: Math.random() * 70 + 50,
+                speed: Math.random() * 4 + 6,
+                angle: Math.PI * 0.78,
+                life: 1
+            });
+        }
+
+        function draw(once) {
+            ctx.clearRect(0, 0, width, height);
+
+            for (var i = 0; i < stars.length; i++) {
+                var s = stars[i];
+                s.phase += s.speed;
+                var a = 0.22 + (Math.sin(s.phase) + 1) * 0.2; // 0.22–0.62
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(' + s.tint + ',' + a.toFixed(2) + ')';
+                ctx.fill();
+            }
+
+            for (var m = meteors.length - 1; m >= 0; m--) {
+                var t = meteors[m];
+                var tx = t.x - Math.cos(t.angle) * t.len;
+                var ty = t.y - Math.sin(t.angle) * t.len;
+                var grad = ctx.createLinearGradient(t.x, t.y, tx, ty);
+                grad.addColorStop(0, 'rgba(235,238,255,' + (t.life * 0.7).toFixed(2) + ')');
+                grad.addColorStop(1, 'rgba(124,92,255,0)');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 1.3;
+                ctx.beginPath();
+                ctx.moveTo(t.x, t.y);
+                ctx.lineTo(tx, ty);
+                ctx.stroke();
+                t.x += Math.cos(t.angle) * t.speed;
+                t.y += Math.sin(t.angle) * t.speed;
+                t.life -= 0.014;
+                if (t.life <= 0 || t.y > height + 100) meteors.splice(m, 1);
+            }
+
+            // one shooting star roughly every 9–16 seconds
+            meteorTimer++;
+            if (meteorTimer > 540 + Math.random() * 420) {
+                meteorTimer = 0;
+                spawnMeteor();
+            }
+
+            if (!once && running) requestAnimationFrame(function () { draw(false); });
+        }
+
+        resize();
+        window.addEventListener('resize', resize);
+
+        if (!reduced) {
+            running = true;
+            requestAnimationFrame(function () { draw(false); });
+        }
+    }
+
     /* ---------------- theme ---------------- */
     function initTheme() {
         var stored = null;
@@ -387,6 +488,7 @@
 
     /* ---------------- boot ---------------- */
     function boot() {
+        initStars();
         initTheme();
         initNav();
         initModal();
