@@ -89,7 +89,55 @@ body {
     pointer-events: none;
 }
 
-:root[data-theme='light'] .stars { display: none; }
+/* soft drifting nebula glow behind the stars — dark theme only */
+.nebula {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.nebula::before,
+.nebula::after {
+    content: '';
+    position: absolute;
+    width: 62vmax;
+    height: 62vmax;
+    border-radius: 50%;
+}
+
+.nebula::before {
+    top: -28vmax;
+    right: -18vmax;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.13), transparent 62%);
+    animation: nebula-drift-a 46s ease-in-out infinite alternate;
+}
+
+.nebula::after {
+    bottom: -30vmax;
+    left: -20vmax;
+    background: radial-gradient(circle, rgba(56, 120, 255, 0.09), transparent 62%);
+    animation: nebula-drift-b 58s ease-in-out infinite alternate;
+}
+
+@keyframes nebula-drift-a {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(-7vmax, 5vmax, 0) scale(1.12); }
+}
+
+@keyframes nebula-drift-b {
+    from { transform: translate3d(0, 0, 0) scale(1.08); }
+    to { transform: translate3d(6vmax, -5vmax, 0) scale(1); }
+}
+
+:root[data-theme='light'] .stars,
+:root[data-theme='light'] .nebula { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    .nebula::before,
+    .nebula::after { animation: none; }
+}
 
 body.modal-open { overflow: hidden; }
 
