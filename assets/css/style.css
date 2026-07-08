@@ -447,6 +447,28 @@ img, svg { display: block; }
     border-radius: 50%;
     background: var(--success);
     box-shadow: 0 0 0 3px var(--success-soft);
+    animation: badge-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+    0%, 100% { box-shadow: 0 0 0 3px var(--success-soft); }
+    50% { box-shadow: 0 0 0 6px rgba(47, 191, 113, 0.06); }
+}
+
+[data-badge-rotator] {
+    display: inline-block;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.26s var(--ease), transform 0.26s var(--ease);
+}
+
+[data-badge-rotator].is-swapping {
+    opacity: 0;
+    transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero__badge-dot { animation: none; }
 }
 
 .hero h1 {

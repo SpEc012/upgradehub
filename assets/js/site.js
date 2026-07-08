@@ -151,6 +151,38 @@
         }
     }
 
+    /* ---------------- hero badge rotator ---------------- */
+    function initBadgeRotator() {
+        var el = document.querySelector('[data-badge-rotator]');
+        if (!el) return;
+
+        var prompts = [
+            'Nitro + Boosts · a full year for $40',
+            '14 server boosts · Level 3 for $8',
+            'Spotify Premium · 12 months for $30',
+            'Netflix 4K · a year for $34.99',
+            'YouTube Premium + Music · $45/yr',
+            'HBO Max Ultimate · $45 for the year',
+            'Adobe Creative Cloud · $64.99/yr, save 90%',
+            'Avg ticket response · under 5 minutes',
+            'Every plan covered by full-term warranty'
+        ];
+
+        var i = Math.floor(Math.random() * prompts.length);
+        el.textContent = 'Live now · ' + prompts[i];
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        setInterval(function () {
+            i = (i + 1) % prompts.length;
+            el.classList.add('is-swapping');
+            setTimeout(function () {
+                el.textContent = 'Live now · ' + prompts[i];
+                el.classList.remove('is-swapping');
+            }, 260);
+        }, 5200);
+    }
+
     /* ---------------- theme ---------------- */
     function initTheme() {
         var stored = null;
@@ -496,6 +528,7 @@
     /* ---------------- boot ---------------- */
     function boot() {
         initStars();
+        initBadgeRotator();
         initTheme();
         initNav();
         initModal();
