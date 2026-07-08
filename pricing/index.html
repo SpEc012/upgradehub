@@ -1,171 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing | Upgrade Hub — All Premium Subscriptions & Discord Boosts</title>
+    <title>Catalog — Upgrade Hub | All Premium Subscriptions & Discord Boosts</title>
+
     <meta name="description"
-        content="Every Upgrade Hub product, one page. Spotify, Netflix, YouTube Premium, Amazon Prime Video, HBO Max, Peacock, Paramount+, Disney+, Adobe Creative Cloud, Crunchyroll, NordVPN, McAfee and Discord Server Boosts.">
+        content="Every Upgrade Hub product on one page — Spotify, Netflix, YouTube Premium, Prime Video, HBO Max, Peacock, Paramount+, Disney+, Adobe, Crunchyroll, Canva, NordVPN, McAfee and Discord Server Boosts.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0b0c11">
     <link rel="canonical" href="https://upgradehub.lol/pricing/">
 
-    <meta property="og:title" content="Pricing | Upgrade Hub — Full Catalog">
+    <meta property="og:title" content="Catalog — Upgrade Hub">
     <meta property="og:description"
-        content="Browse every premium subscription and Discord boost pack. Tap any card to see full plan details.">
+        content="Browse every premium subscription and Discord boost pack. Search, filter and tap any card for full plan details.">
+    <meta property="og:image" content="https://upgradehub.lol/assets/og-image.png">
     <meta property="og:url" content="https://upgradehub.lol/pricing/">
-    <meta property="og:image" content="https://upgradehub.lol/Rews.gif">
     <meta property="og:type" content="website">
-    <meta name="theme-color" content="#7C3AED">
+    <meta property="og:site_name" content="Upgrade Hub">
 
-    <link rel="icon" href="https://spec012.github.io/upgradehub/favicon.ico">
-    <link rel="apple-touch-icon" href="https://spec012.github.io/upgradehub/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Catalog — Upgrade Hub">
+    <meta name="twitter:description" content="Every premium subscription and Discord boost pack on one page.">
+    <meta name="twitter:image" content="https://upgradehub.lol/assets/og-image.png">
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <script>
+        // set theme before first paint to avoid flashing
+        (function () {
+            try {
+                var t = localStorage.getItem('uh-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) { }
+        })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
-    <div class="cosmos" aria-hidden="true"></div>
-    <canvas id="starfield" aria-hidden="true"></canvas>
-
-    <header>
-        <nav class="nav" data-nav>
-            <a class="nav__brand" href="../index.html">
-                <span class="nav__brand-icon">
-                    <i class="fas fa-arrow-trend-up" aria-hidden="true"></i>
+    <header class="header" data-header>
+        <div class="container header__inner">
+            <a class="brand" href="/">
+                <span class="brand__mark">
+                    <svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M8 13V3M4 7l4-4 4 4" />
+                    </svg>
                 </span>
                 Upgrade Hub
             </a>
-            <div class="nav__links">
-                <a href="../index.html">Home</a>
-                <a href="../index.html#featured">Featured</a>
-                <a href="../pricing.html">All Pricing</a>
-                <a href="../index.html#how">How it works</a>
-                <a href="../index.html#faq">FAQ</a>
+
+            <nav class="nav" data-nav-menu aria-label="Main">
+                <a href="/">Home</a>
+                <a href="/pricing/">Catalog</a>
+                <a href="/#how">How it works</a>
+                <a href="/#reviews">Reviews</a>
+                <a href="/#faq">FAQ</a>
+            </nav>
+
+            <div class="header__actions">
+                <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle color theme">
+                    <svg class="icon-btn__sun" viewBox="0 0 24 24" width="17" height="17" fill="none"
+                        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4.4" />
+                        <path d="M12 2.5v2.2M12 19.3v2.2M4.3 4.3l1.6 1.6M18.1 18.1l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.3 19.7l1.6-1.6M18.1 5.9l1.6-1.6" />
+                    </svg>
+                    <svg class="icon-btn__moon" viewBox="0 0 24 24" width="17" height="17" fill="none"
+                        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" />
+                    </svg>
+                </button>
+                <a class="btn btn--primary btn--sm header__cta" href="https://discord.gg/rb5DEqWBzg" target="_blank"
+                    rel="noreferrer">Open a ticket</a>
+                <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-label="Toggle menu"
+                    aria-expanded="false">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                        <path d="M4 7h16M4 12h16M4 17h16" />
+                    </svg>
+                </button>
             </div>
-            <button class="nav__toggle" type="button" data-nav-toggle aria-label="Toggle menu" aria-expanded="false">
-                <i class="fas fa-bars" aria-hidden="true"></i>
-                Menu
-            </button>
-            <a class="btn" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
-                <i class="fab fa-discord" aria-hidden="true"></i> Open ticket
-            </a>
-        </nav>
+        </div>
     </header>
 
     <main>
-        <section class="hero pricing-hero">
-            <div class="hero__inner">
-                <span class="hero__eyebrow" data-reveal>
-                    <span class="pulse-dot"></span>
-                    Full catalog · 14 products live
-                </span>
-                <h1 class="hero__title" data-reveal data-reveal-delay="1">
-                    Every drop, <span class="gradient-text">one page.</span>
-                </h1>
-                <p class="hero__text" data-reveal data-reveal-delay="2">
-                    Streaming, music, creative suites, anime, security and Discord boosts. Filter by category, tap any
-                    card for the full breakdown — pricing is transparent and locked in for the full term.
-                </p>
-                <div class="hero__actions" data-reveal data-reveal-delay="3">
-                    <a class="btn btn--lg" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
-                        <i class="fab fa-discord" aria-hidden="true"></i> Open a ticket
-                    </a>
-                    <a class="btn btn--ghost btn--lg" href="https://t.me/xhoec" target="_blank" rel="noreferrer">
-                        <i class="fab fa-telegram-plane" aria-hidden="true"></i> Telegram DM
-                    </a>
+        <section class="page-head">
+            <div class="container">
+                <h1 data-reveal>The full catalog</h1>
+                <p data-reveal>Fourteen premium products, transparent pricing, every plan locked in for the whole
+                    term. Search, filter, or tap any card for the full breakdown.</p>
+            </div>
+        </section>
+
+        <section class="section section--tight" id="catalog">
+            <div class="container">
+                <div class="toolbar" data-reveal>
+                    <div class="search">
+                        <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor"
+                            stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                            <circle cx="7" cy="7" r="4.4" />
+                            <path d="m13.5 13.5-3.2-3.2" />
+                        </svg>
+                        <input type="search" data-search placeholder="Search products…" aria-label="Search products">
+                    </div>
+                    <div class="filters" data-filter-bar role="group" aria-label="Filter by category">
+                        <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+                        <button class="filter-chip" type="button" data-filter="streaming" aria-pressed="false">Streaming</button>
+                        <button class="filter-chip" type="button" data-filter="music" aria-pressed="false">Music &amp; Video</button>
+                        <button class="filter-chip" type="button" data-filter="creative" aria-pressed="false">Creative</button>
+                        <button class="filter-chip" type="button" data-filter="security" aria-pressed="false">Security</button>
+                        <button class="filter-chip" type="button" data-filter="discord" aria-pressed="false">Discord</button>
+                    </div>
+                    <label class="sort">
+                        <span>Sort</span>
+                        <select data-sort aria-label="Sort products">
+                            <option value="featured">Featured</option>
+                            <option value="price-asc">Price: low to high</option>
+                            <option value="price-desc">Price: high to low</option>
+                            <option value="savings">Biggest savings</option>
+                        </select>
+                    </label>
+                    <span class="toolbar__count" data-count aria-live="polite"></span>
+                </div>
+
+                <div class="grid" data-product-grid data-products="all"></div>
+
+                <div class="empty" data-empty hidden>
+                    <strong>Nothing matches that search.</strong>
+                    Try a different name, or ask us on Discord — custom orders are welcome.
                 </div>
             </div>
         </section>
 
-        <section id="catalog" style="padding-top:1rem;">
-            <div class="section-shell">
-                <div class="filter-bar" data-filter-bar data-reveal>
-                    <button class="filter-chip active" data-filter="all" type="button">All</button>
-                    <button class="filter-chip" data-filter="streaming" type="button">Streaming</button>
-                    <button class="filter-chip" data-filter="music" type="button">Music & Video</button>
-                    <button class="filter-chip" data-filter="creative" type="button">Creative</button>
-                    <button class="filter-chip" data-filter="security" type="button">Security</button>
-                    <button class="filter-chip" data-filter="discord" type="button">Discord</button>
-                </div>
-
-                <div class="product-grid" data-product-grid="all" data-products="all" data-filterable></div>
-
-                <div class="show-more" data-reveal style="margin-top:4rem;">
-                    <h3>Need a custom drop?</h3>
+        <section class="section section--tight" id="contact">
+            <div class="container">
+                <div class="cta" data-reveal>
+                    <h2>Need a custom drop?</h2>
                     <p>Enterprise seats, more than 14 boosts, or a service we haven't listed yet? Open a ticket and
                         we'll spin it up the same day.</p>
-                    <a class="btn btn--lg" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
-                        <i class="fab fa-discord" aria-hidden="true"></i> Talk to us on Discord
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="cta" id="contact">
-            <div class="section-shell">
-                <div class="cta-card" data-reveal>
-                    <h2>Lock in your upgrade</h2>
-                    <p>All plans come with full-term warranty. Drop a ticket, pay, and you'll be streaming or boosting
-                        in minutes.</p>
                     <div class="hero__actions">
-                        <a class="btn btn--lg" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">
-                            <i class="fab fa-discord" aria-hidden="true"></i> Join Discord
-                        </a>
-                        <a class="btn btn--ghost btn--lg" href="https://t.me/xhoec" target="_blank" rel="noreferrer">
-                            <i class="fab fa-telegram-plane" aria-hidden="true"></i> Telegram DM
-                        </a>
+                        <a class="btn btn--primary btn--lg" href="https://discord.gg/rb5DEqWBzg" target="_blank"
+                            rel="noreferrer">Talk to us on Discord</a>
+                        <a class="btn btn--ghost btn--lg" href="https://t.me/xhoec" target="_blank"
+                            rel="noreferrer">Telegram DM</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <div class="footer-links">
-            <a href="../index.html">Home</a>
-            <a href="../index.html#featured">Featured</a>
-            <a href="../pricing.html">All Pricing</a>
-            <a href="../index.html#how">How it works</a>
-            <a href="../index.html#faq">FAQ</a>
-            <a href="#contact">Contact</a>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__brand">
+                    <a class="brand" href="/">
+                        <span class="brand__mark">
+                            <svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M8 13V3M4 7l4-4 4 4" />
+                            </svg>
+                        </span>
+                        Upgrade Hub
+                    </a>
+                    <p>Premium subscriptions and Discord boosts at regional prices, with verified delivery and
+                        full-term warranty.</p>
+                    <div class="footer__socials">
+                        <a class="icon-btn" href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer"
+                            aria-label="Discord">
+                            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+                                <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                            </svg>
+                        </a>
+                        <a class="icon-btn" href="https://t.me/xhoec" target="_blank" rel="noreferrer"
+                            aria-label="Telegram">
+                            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+                                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                            </svg>
+                        </a>
+                        <a class="icon-btn" href="https://www.tiktok.com/@upgradehub00" target="_blank" rel="noreferrer"
+                            aria-label="TikTok">
+                            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Site</h4>
+                    <div class="footer__col">
+                        <a href="/">Home</a>
+                        <a href="/pricing/">Catalog</a>
+                        <a href="/#how">How it works</a>
+                        <a href="/#reviews">Reviews</a>
+                        <a href="/#faq">FAQ</a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <div class="footer__col">
+                        <a href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer">Discord server</a>
+                        <a href="https://t.me/xhoec" target="_blank" rel="noreferrer">Telegram</a>
+                        <a href="https://www.tiktok.com/@upgradehub00" target="_blank" rel="noreferrer">TikTok</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>© <span id="year">2026</span> Upgrade Hub. Coded by SpEc.</span>
+                <p class="footer__disclaimer">Upgrade Hub is an independent reseller and is not affiliated with,
+                    endorsed by, or sponsored by Spotify, Netflix, YouTube, Amazon, Warner Bros. Discovery, NBCUniversal,
+                    Paramount, Disney, Adobe, Canva, Crunchyroll, Nord Security, McAfee or Discord. All trademarks
+                    belong to their respective owners.</p>
+            </div>
         </div>
-        <div class="socials">
-            <a href="https://discord.gg/rb5DEqWBzg" target="_blank" rel="noreferrer" aria-label="Discord">
-                <i class="fab fa-discord"></i>
-            </a>
-            <a href="https://t.me/xhoec" target="_blank" rel="noreferrer" aria-label="Telegram">
-                <i class="fab fa-telegram-plane"></i>
-            </a>
-            <a href="https://www.tiktok.com/@upgradehub00" target="_blank" rel="noreferrer" aria-label="TikTok">
-                <i class="fab fa-tiktok"></i>
-            </a>
-        </div>
-        <p>© <span id="year">2026</span> Upgrade Hub · Regional pricing experts.</p>
     </footer>
 
-    <div class="modal" data-product-modal>
+    <!-- ============ PRODUCT MODAL ============ -->
+    <div class="modal" data-modal hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal__panel">
-            <div class="modal__head">
-                <h3 data-modal-title>Loading...</h3>
-                <button class="modal__close" data-close-modal aria-label="Close product modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal__body">
-                <!-- populated by site.js -->
-            </div>
+            <button class="modal__close" type="button" data-modal-close aria-label="Close">
+                <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" aria-hidden="true">
+                    <path d="M4 4l8 8M12 4l-8 8" />
+                </svg>
+            </button>
+            <div data-modal-body></div>
         </div>
     </div>
 
-    <script src="../assets/js/products.js"></script>
-    <script src="../assets/js/site.js"></script>
+    <button class="back-to-top" type="button" data-back-to-top aria-label="Back to top">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 13V3M4 7l4-4 4 4" />
+        </svg>
+    </button>
+
+    <script src="/assets/js/products.js"></script>
+    <script src="/assets/js/site.js"></script>
 </body>
 
 </html>

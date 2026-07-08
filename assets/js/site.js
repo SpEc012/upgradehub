@@ -1,506 +1,401 @@
+/* ============================================================
+   Upgrade Hub — site behaviour
+   Theme toggle · nav · catalog search/filter/sort · product
+   modal with plan selector · FAQ · scroll reveal
+   ============================================================ */
 (function () {
     'use strict';
 
-    // ============================================
-    // STARFIELD CANVAS — parallax stars + occasional shooting stars
-    // ============================================
-    function initStarfield() {
-        const canvas = document.getElementById('starfield');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        let width = 0;
-        let height = 0;
-        let stars = [];
-        let shooting = [];
-        let dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var catalog = window.productCatalog || {};
+    var icons = window.brandIcons || {};
+    var contacts = window.contactEndpoints || {};
 
-        function resize() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            dpr = Math.min(window.devicePixelRatio || 1, 2);
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
-            canvas.style.width = width + 'px';
-            canvas.style.height = height + 'px';
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            seedStars();
-        }
-
-        function seedStars() {
-            const density = Math.max(80, Math.floor((width * height) / 9000));
-            stars = [];
-            for (let i = 0; i < density; i++) {
-                const layer = Math.random() < 0.6 ? 1 : Math.random() < 0.85 ? 2 : 3;
-                stars.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    radius: layer === 1 ? Math.random() * 0.8 + 0.3 : layer === 2 ? Math.random() * 1.1 + 0.6 : Math.random() * 1.5 + 1,
-                    layer,
-                    speed: layer === 1 ? 0.015 : layer === 2 ? 0.04 : 0.08,
-                    twinkleSpeed: Math.random() * 0.015 + 0.005,
-                    twinklePhase: Math.random() * Math.PI * 2,
-                    hueShift: Math.random() < 0.85 ? 0 : Math.random() < 0.5 ? 1 : 2
-                });
-            }
-        }
-
-        function spawnShootingStar() {
-            if (prefersReducedMotion) return;
-            const startX = Math.random() * width * 0.9;
-            const startY = Math.random() * height * 0.4;
-            shooting.push({
-                x: startX,
-                y: startY,
-                len: Math.random() * 80 + 60,
-                speed: Math.random() * 6 + 8,
-                angle: Math.PI / 4 + (Math.random() * 0.3 - 0.15),
-                opacity: 1
-            });
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, width, height);
-
-            for (const star of stars) {
-                star.twinklePhase += star.twinkleSpeed;
-                const twinkle = 0.55 + Math.sin(star.twinklePhase) * 0.45;
-                star.y += star.speed;
-                if (star.y > height) {
-                    star.y = -2;
-                    star.x = Math.random() * width;
-                }
-                let color;
-                if (star.hueShift === 1) {
-                    color = `rgba(167, 139, 250, ${twinkle})`;
-                } else if (star.hueShift === 2) {
-                    color = `rgba(56, 189, 248, ${twinkle})`;
-                } else {
-                    color = `rgba(255, 255, 255, ${twinkle})`;
-                }
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.fillStyle = color;
-                ctx.fill();
-
-                if (star.layer === 3) {
-                    ctx.beginPath();
-                    ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
-                    ctx.fillStyle = color.replace(/[\d.]+\)$/, (twinkle * 0.12).toFixed(2) + ')');
-                    ctx.fill();
-                }
-            }
-
-            for (let i = shooting.length - 1; i >= 0; i--) {
-                const s = shooting[i];
-                const tailX = s.x - Math.cos(s.angle) * s.len;
-                const tailY = s.y - Math.sin(s.angle) * s.len;
-                const grad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-                grad.addColorStop(0, `rgba(255, 255, 255, ${s.opacity})`);
-                grad.addColorStop(0.4, `rgba(167, 139, 250, ${s.opacity * 0.6})`);
-                grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
-                ctx.strokeStyle = grad;
-                ctx.lineWidth = 1.6;
-                ctx.beginPath();
-                ctx.moveTo(s.x, s.y);
-                ctx.lineTo(tailX, tailY);
-                ctx.stroke();
-
-                s.x += Math.cos(s.angle) * s.speed;
-                s.y += Math.sin(s.angle) * s.speed;
-                s.opacity -= 0.012;
-                if (s.opacity <= 0 || s.x > width + 200 || s.y > height + 200) {
-                    shooting.splice(i, 1);
-                }
-            }
-
-            requestAnimationFrame(draw);
-        }
-
-        resize();
-        window.addEventListener('resize', resize);
-        if (!prefersReducedMotion) {
-            requestAnimationFrame(draw);
-            setInterval(() => {
-                if (Math.random() < 0.4) spawnShootingStar();
-            }, 4500);
-        } else {
-            draw();
-        }
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initStarfield);
-    } else {
-        initStarfield();
-    }
-
-    // ============================================
-    // PRODUCT CATALOG, GRID, MODAL
-    // ============================================
-    if (!window.productCatalog) return;
-
-    const currency = new Intl.NumberFormat('en-US', {
+    var currency = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         maximumFractionDigits: 2
     });
 
-    const modal = document.querySelector('[data-product-modal]');
-    const modalBody = modal ? modal.querySelector('.modal__body') : null;
-    const modalTitle = modal ? modal.querySelector('[data-modal-title]') : null;
-
-    function formatCurrency(value) {
-        if (typeof value !== 'number' || Number.isNaN(value)) return 'Contact for price';
-        return currency.format(value);
+    function money(value) {
+        if (typeof value !== 'number' || isNaN(value)) return '—';
+        return currency.format(value).replace(/\.00$/, '');
     }
 
-    function computeSavings(original, promo) {
-        if (typeof original !== 'number' || typeof promo !== 'number') return null;
-        if (original === 0) return null;
+    function savings(original, promo) {
+        if (typeof original !== 'number' || typeof promo !== 'number' || original <= 0) return null;
         return Math.round(((original - promo) / original) * 100);
     }
 
-    function getPrimaryPlan(product) {
-        if (!product) return null;
-        if (!Array.isArray(product.plans) || product.plans.length === 0) {
-            return product;
-        }
+    function primaryPlan(product) {
+        if (!product || !product.plans || !product.plans.length) return null;
         if (product.featuredPlan) {
-            const match = product.plans.find((plan) => plan.id === product.featuredPlan);
-            if (match) return match;
+            for (var i = 0; i < product.plans.length; i++) {
+                if (product.plans[i].id === product.featuredPlan) return product.plans[i];
+            }
         }
         return product.plans[0];
     }
 
-    function buildCard(product, index) {
-        const primary = getPrimaryPlan(product);
-        const promo = primary?.promoPrice ?? product.promoPrice;
-        const original = primary?.originalPrice ?? product.originalPrice;
-        const savings = computeSavings(original, promo);
-        const billingLabel = primary?.billingLabel ?? product.billingLabel ?? '';
+    function brandIcon(product, size) {
+        var inner = icons[product.icon] || '';
+        return '<span class="brand-tile" style="--brand:' + product.accent + '">' +
+            '<svg viewBox="0 0 24 24" width="' + (size || 22) + '" height="' + (size || 22) + '" fill="currentColor" aria-hidden="true">' + inner + '</svg>' +
+            '</span>';
+    }
 
-        const card = document.createElement('article');
-        card.className = 'product-card';
-        card.dataset.productId = product.id;
-        card.setAttribute('data-reveal', '');
-        card.setAttribute('data-reveal-delay', String(Math.min(((index || 0) % 5) + 1, 5)));
-        if (product.accent) {
-            card.style.setProperty('--card-accent', product.accent);
+    /* ---------------- theme ---------------- */
+    function initTheme() {
+        var stored = null;
+        try { stored = localStorage.getItem('uh-theme'); } catch (e) { /* private mode */ }
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                try { localStorage.setItem('uh-theme', next); } catch (e) { /* ignore */ }
+            });
+        });
+    }
+
+    /* ---------------- header + mobile nav ---------------- */
+    function initNav() {
+        var header = document.querySelector('[data-header]');
+        if (header) {
+            var onScroll = function () {
+                header.classList.toggle('is-scrolled', window.scrollY > 8);
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
         }
 
-        card.innerHTML = `
-            <div class="product-card__media" style="background-image:url('${product.image}')">
-                ${product.badge ? `<span class="product-card__badge product-card__badge--accent">${product.badge}</span>` : ''}
-                ${product.label ? `<span class="product-card__badge" style="right:12px; left:auto;">${product.label}</span>` : ''}
-            </div>
-            <div class="product-card__body">
-                ${product.category ? `<span class="pill">${product.category}</span>` : ''}
-                <h3>${product.name}</h3>
-                <p>${product.summary || product.description || ''}</p>
-                ${promo
-                ? `<div class="product-price">
-                        <span class="product-price__promo">${formatCurrency(promo)}</span>
-                        ${billingLabel ? `<span class="product-price__period">${billingLabel}</span>` : ''}
-                        ${original ? `<span class="product-price__retail">${formatCurrency(original)}</span>` : ''}
-                    </div>`
-                : ''}
-                ${savings ? `<span class="pill pill--success">Save ${savings}%</span>` : ''}
-            </div>
-            <div class="product-card__footer">
-                <button class="btn" type="button">${product.cta || 'View details'} <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-            </div>
-        `;
+        var toggle = document.querySelector('[data-nav-toggle]');
+        var menu = document.querySelector('[data-nav-menu]');
+        if (toggle && menu) {
+            toggle.addEventListener('click', function () {
+                var open = menu.classList.toggle('is-open');
+                toggle.classList.toggle('is-open', open);
+                toggle.setAttribute('aria-expanded', String(open));
+            });
+            menu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    menu.classList.remove('is-open');
+                    toggle.classList.remove('is-open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
 
-        const handler = (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            openProductModal(product.id);
-        };
-        card.addEventListener('click', handler);
+        // highlight current page
+        var path = window.location.pathname.replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
+        document.querySelectorAll('[data-nav-menu] a').forEach(function (link) {
+            var href = (link.getAttribute('href') || '').split('#')[0];
+            if (!href) return;
+            var normalized = href.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+            if (normalized === path || (path.indexOf('/pricing') === 0 && normalized.indexOf('/pricing') === 0)) {
+                link.classList.add('is-active');
+            }
+        });
+    }
 
+    /* ---------------- product cards ---------------- */
+    function cardTemplate(product) {
+        var plan = primaryPlan(product);
+        var pct = plan ? savings(plan.originalPrice, plan.promoPrice) : null;
+        var multi = product.plans && product.plans.length > 1;
+
+        return '' +
+            '<div class="card__top">' +
+                brandIcon(product, 22) +
+                (pct ? '<span class="chip chip--save">−' + pct + '%</span>' : '') +
+            '</div>' +
+            '<h3 class="card__name">' + product.name + '</h3>' +
+            '<p class="card__tagline">' + (product.tagline || '') + '</p>' +
+            '<p class="card__summary">' + (product.summary || '') + '</p>' +
+            '<div class="card__price">' +
+                (plan ? (
+                    (multi ? '<span class="card__from">from</span>' : '') +
+                    '<strong>' + money(plan.promoPrice) + '</strong>' +
+                    '<span class="card__period">' + (plan.billingLabel || '') + '</span>' +
+                    (plan.originalPrice ? '<s>' + money(plan.originalPrice) + '</s>' : '')
+                ) : '') +
+            '</div>' +
+            '<span class="card__cta">View plans' +
+                '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>' +
+            '</span>';
+    }
+
+    function buildCard(product, index) {
+        var card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'card';
+        card.style.setProperty('--brand', product.accent);
+        card.setAttribute('data-reveal', '');
+        card.style.transitionDelay = (Math.min(index % 6, 5) * 40) + 'ms';
+        card.innerHTML = cardTemplate(product);
+        card.addEventListener('click', function () { openModal(product.id, card); });
         return card;
     }
 
-    function renderGrid(grid) {
-        if (!grid) return;
-        const listId = grid.dataset.products;
-        let ids;
+    /* ---------------- catalog (grid + search + filter + sort) ---------------- */
+    function getMinPrice(product) {
+        var plan = primaryPlan(product);
+        return plan ? plan.promoPrice : Infinity;
+    }
 
-        if (!listId || listId === 'all') {
-            ids = window.fullCatalogOrder ?? Object.keys(window.productCatalog);
-        } else if (listId === 'featured') {
-            ids = window.featuredProductIds;
-        } else {
-            ids = listId.split(',').map((id) => id.trim()).filter(Boolean);
+    function getMaxSavings(product) {
+        var best = 0;
+        (product.plans || []).forEach(function (p) {
+            var pct = savings(p.originalPrice, p.promoPrice);
+            if (pct && pct > best) best = pct;
+        });
+        return best;
+    }
+
+    function initGrid(grid) {
+        var mode = grid.getAttribute('data-products') || 'all';
+        var searchInput = document.querySelector('[data-search]');
+        var filterBar = document.querySelector('[data-filter-bar]');
+        var sortSelect = document.querySelector('[data-sort]');
+        var countEl = document.querySelector('[data-count]');
+        var emptyEl = document.querySelector('[data-empty]');
+
+        var state = { query: '', category: 'all', sort: 'featured' };
+
+        function ids() {
+            if (mode === 'featured') return window.featuredProductIds || [];
+            return window.fullCatalogOrder || Object.keys(catalog);
         }
 
-        const fragment = document.createDocumentFragment();
-        ids.forEach((id, index) => {
-            const product = window.productCatalog[id];
-            if (!product) return;
-            const card = buildCard(product, index);
-            fragment.appendChild(card);
-        });
+        function render() {
+            var list = ids().map(function (id) { return catalog[id]; }).filter(Boolean);
 
-        grid.innerHTML = '';
-        grid.appendChild(fragment);
-        observeReveal(grid);
+            if (state.category !== 'all') {
+                list = list.filter(function (p) { return p.category === state.category; });
+            }
+            if (state.query) {
+                var q = state.query.toLowerCase();
+                list = list.filter(function (p) {
+                    return (p.name + ' ' + (p.tagline || '') + ' ' + (p.summary || '') + ' ' + (p.categoryLabel || ''))
+                        .toLowerCase().indexOf(q) !== -1;
+                });
+            }
+            if (state.sort === 'price-asc') {
+                list.sort(function (a, b) { return getMinPrice(a) - getMinPrice(b); });
+            } else if (state.sort === 'price-desc') {
+                list.sort(function (a, b) { return getMinPrice(b) - getMinPrice(a); });
+            } else if (state.sort === 'savings') {
+                list.sort(function (a, b) { return getMaxSavings(b) - getMaxSavings(a); });
+            }
+
+            grid.innerHTML = '';
+            var frag = document.createDocumentFragment();
+            list.forEach(function (p, i) { frag.appendChild(buildCard(p, i)); });
+            grid.appendChild(frag);
+            observeReveal(grid);
+
+            if (countEl) countEl.textContent = list.length + (list.length === 1 ? ' product' : ' products');
+            if (emptyEl) emptyEl.hidden = list.length !== 0;
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                state.query = searchInput.value.trim();
+                render();
+            });
+        }
+        if (filterBar) {
+            filterBar.addEventListener('click', function (event) {
+                var chip = event.target.closest('[data-filter]');
+                if (!chip) return;
+                filterBar.querySelectorAll('[data-filter]').forEach(function (c) {
+                    c.classList.remove('is-active');
+                    c.setAttribute('aria-pressed', 'false');
+                });
+                chip.classList.add('is-active');
+                chip.setAttribute('aria-pressed', 'true');
+                state.category = chip.getAttribute('data-filter');
+                render();
+            });
+        }
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function () {
+                state.sort = sortSelect.value;
+                render();
+            });
+        }
+
+        render();
     }
 
-    function buildPlanMarkup(product) {
-        if (!product.plans || product.plans.length === 0) return '';
-        return `
-            <div class="modal-plans">
-                ${product.plans
-                    .map(
-                        (plan) => `
-                        <div class="plan-card">
-                            <strong>${plan.label}</strong>
-                            <span class="plan-card__desc">${plan.description || ''}</span>
-                            <div class="product-price">
-                                <span class="product-price__promo">${formatCurrency(plan.promoPrice)}</span>
-                                ${plan.billingLabel ? `<span class="product-price__period">${plan.billingLabel}</span>` : ''}
-                                ${plan.originalPrice ? `<span class="product-price__retail">${formatCurrency(plan.originalPrice)}</span>` : ''}
-                            </div>
-                            ${computeSavings(plan.originalPrice, plan.promoPrice) ? `<span class="pill pill--success" style="margin-top:0.6rem;">Save ${computeSavings(plan.originalPrice, plan.promoPrice)}%</span>` : ''}
-                        </div>
-                    `
-                    )
-                    .join('')}
-            </div>
-        `;
+    /* ---------------- product modal ---------------- */
+    var modal = document.querySelector('[data-modal]');
+    var modalBody = modal ? modal.querySelector('[data-modal-body]') : null;
+    var lastFocused = null;
+
+    function planRow(product, plan, checked) {
+        var pct = savings(plan.originalPrice, plan.promoPrice);
+        return '' +
+            '<label class="plan' + (checked ? ' is-selected' : '') + '">' +
+                '<input type="radio" name="plan" value="' + plan.id + '"' + (checked ? ' checked' : '') + '>' +
+                '<span class="plan__radio" aria-hidden="true"></span>' +
+                '<span class="plan__info">' +
+                    '<span class="plan__label">' + plan.label + '</span>' +
+                    '<span class="plan__desc">' + (plan.description || '') + '</span>' +
+                '</span>' +
+                '<span class="plan__price">' +
+                    '<strong>' + money(plan.promoPrice) + '</strong>' +
+                    (plan.originalPrice ? '<s>' + money(plan.originalPrice) + '</s>' : '') +
+                    (pct ? '<em>−' + pct + '%</em>' : '') +
+                '</span>' +
+            '</label>';
     }
 
-    function buildComparisonMarkup(comparison) {
-        if (!Array.isArray(comparison) || comparison.length === 0) return '';
-        const rows = comparison
-            .map(
-                (row) => {
-                    const savings = computeSavings(row.retail, row.ours);
-                    return `
-                <div class="comparison__row">
-                    <div>
-                        <small>${row.label}</small>
-                    </div>
-                    <div>
-                        <small>Normal</small>
-                        <strong class="retail-price">${formatCurrency(row.retail)}</strong>
-                    </div>
-                    <div>
-                        <small>You pay</small>
-                        <strong class="ours-price">${formatCurrency(row.ours)}${savings ? ` <span style="font-size:0.7rem; color:var(--success); font-weight:600;">(-${savings}%)</span>` : ''}</strong>
-                    </div>
-                </div>
-            `;
-                }
-            )
-            .join('');
-        return `
-            <div class="comparison">
-                <div class="comparison__header"><i class="fas fa-bolt" aria-hidden="true"></i> Real savings vs. retail</div>
-                ${rows}
-            </div>
-        `;
-    }
-
-    function openProductModal(productId) {
-        if (!modal || !modalBody || !modalTitle) return;
-        const product = window.productCatalog[productId];
+    function openModal(productId, trigger) {
+        if (!modal || !modalBody) return;
+        var product = catalog[productId];
         if (!product) return;
+        lastFocused = trigger || document.activeElement;
 
-        const primary = getPrimaryPlan(product);
-        const promo = primary?.promoPrice ?? product.promoPrice;
-        const original = primary?.originalPrice ?? product.originalPrice;
-        const billingLabel = primary?.billingLabel ?? product.billingLabel ?? '';
-        const savings = computeSavings(original, promo);
+        var featured = primaryPlan(product);
+        var plansHtml = product.plans.map(function (plan) {
+            return planRow(product, plan, featured && plan.id === featured.id);
+        }).join('');
 
-        modalTitle.textContent = product.name;
+        modalBody.innerHTML = '' +
+            '<div class="modal__brand" style="--brand:' + product.accent + '">' +
+                brandIcon(product, 26) +
+                '<div>' +
+                    '<h3 class="modal__name" id="modal-title">' + product.name + '</h3>' +
+                    '<p class="modal__tagline">' + (product.tagline || '') + '</p>' +
+                '</div>' +
+            '</div>' +
+            '<p class="modal__desc">' + (product.description || product.summary || '') + '</p>' +
+            '<div class="modal__section-label">' + (product.plans.length > 1 ? 'Choose a plan' : 'Plan') + '</div>' +
+            '<div class="modal__plans" data-plans>' + plansHtml + '</div>' +
+            '<div class="modal__section-label">What you get</div>' +
+            '<ul class="modal__features">' +
+                (product.features || []).map(function (f) {
+                    return '<li><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg>' + f + '</li>';
+                }).join('') +
+            '</ul>' +
+            '<div class="modal__actions">' +
+                '<a class="btn btn--primary" data-order href="' + contacts.discord + '" target="_blank" rel="noreferrer">' +
+                    '<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">' + icons.discord + '</svg>' +
+                    '<span>Order on Discord</span>' +
+                '</a>' +
+                '<a class="btn btn--ghost" href="' + contacts.telegram + '" target="_blank" rel="noreferrer">' +
+                    '<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">' + icons.telegram + '</svg>' +
+                    '<span>Telegram DM</span>' +
+                '</a>' +
+            '</div>' +
+            '<p class="modal__note">Open a ticket, mention <strong>' + product.name + '</strong> and the plan you picked — average response time is under 5 minutes.</p>';
 
-        modalBody.innerHTML = `
-            <div class="modal-product">
-                <div class="modal-product__media" style="background-image:url('${product.image}')"></div>
-                <div class="modal-product__content">
-                    ${product.category ? `<span class="pill">${product.category}</span>` : ''}
-                    <h3>${product.name}</h3>
-                    <p>${product.description || product.summary || ''}</p>
-                    ${promo
-                ? `<div class="product-price" style="margin:1.1rem 0 0.5rem;">
-                            <span class="product-price__promo">${formatCurrency(promo)}</span>
-                            ${billingLabel ? `<span class="product-price__period">${billingLabel}</span>` : ''}
-                            ${original ? `<span class="product-price__retail">${formatCurrency(original)}</span>` : ''}
-                        </div>`
-                : ''}
-                    ${savings ? `<span class="pill pill--success">You save ${savings}%</span>` : ''}
-                    ${product.features && product.features.length
-                ? `<ul class="modal-features">
-                            ${product.features.map((feature) => `<li>${feature}</li>`).join('')}
-                        </ul>`
-                : ''}
-                </div>
-            </div>
-            ${product.plans && product.plans.length > 1 ? `
-                <div style="margin-top:1.6rem;">
-                    <small style="display:block; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); font-size:0.75rem; font-weight:600; margin-bottom:0.6rem;">Choose your plan</small>
-                    ${buildPlanMarkup(product)}
-                </div>` : ''}
-            ${product.comparison ? buildComparisonMarkup(product.comparison) : ''}
-            ${product.note ? `<div class="modal-note"><i class="fas fa-info-circle"></i><span>${product.note}</span></div>` : ''}
-            <div class="modal-actions">
-                <a class="btn" href="${window.contactEndpoints.discord}" target="_blank" rel="noreferrer">
-                    <i class="fab fa-discord" aria-hidden="true"></i> Open a Discord ticket
-                </a>
-                <a class="btn btn--ghost" href="${window.contactEndpoints.telegram}" target="_blank" rel="noreferrer">
-                    <i class="fab fa-telegram-plane" aria-hidden="true"></i> Telegram DM
-                </a>
-            </div>
-        `;
+        var plansWrap = modalBody.querySelector('[data-plans]');
+        if (plansWrap) {
+            plansWrap.addEventListener('change', function (event) {
+                if (event.target.name !== 'plan') return;
+                plansWrap.querySelectorAll('.plan').forEach(function (row) {
+                    row.classList.toggle('is-selected', row.querySelector('input').checked);
+                });
+            });
+        }
 
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        modalBody.scrollTop = 0;
+        modal.classList.add('is-open');
+        modal.removeAttribute('hidden');
+        document.body.classList.add('modal-open');
+        var closeBtn = modal.querySelector('[data-modal-close]');
+        if (closeBtn) closeBtn.focus();
+        modal.querySelector('.modal__panel').scrollTop = 0;
     }
 
     function closeModal() {
         if (!modal) return;
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
+        modal.classList.remove('is-open');
+        modal.setAttribute('hidden', '');
+        document.body.classList.remove('modal-open');
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
-    function setupModalListeners() {
+    function initModal() {
         if (!modal) return;
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModal();
-            }
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal || event.target.closest('[data-modal-close]')) closeModal();
         });
-
-        modal.querySelectorAll('[data-close-modal]').forEach((button) =>
-            button.addEventListener('click', closeModal)
-        );
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
         });
     }
 
-    // ============================================
-    // ACTIVE NAV + MOBILE MENU
-    // ============================================
-    function normalizePath(input) {
-        if (!input) return '';
-        let value = input.split('#')[0].split('?')[0];
-        value = value.replace(/index\.html$/, '');
-        value = value.replace(/\/+$/, '');
-        if (value === '' || value === '/') return '';
-        return value;
-    }
-
-    function highlightActiveNav() {
-        const path = normalizePath(window.location.pathname);
-        document.querySelectorAll('[data-nav] a').forEach((link) => {
-            const href = link.getAttribute('href');
-            if (!href || href.startsWith('#')) return;
-            const normalized = href === '/' ? '' : normalizePath(href.replace(/\.html$/, ''));
-            if (normalized === path) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    function setupMobileNav() {
-        const toggle = document.querySelector('[data-nav-toggle]');
-        const links = document.querySelector('.nav__links');
-        if (!toggle || !links) return;
-
-        toggle.addEventListener('click', () => {
-            const open = links.classList.toggle('nav__links--open');
-            document.body.classList.toggle('nav-open', open);
-            toggle.setAttribute('aria-expanded', String(open));
-        });
-
-        links.querySelectorAll('a').forEach((link) =>
-            link.addEventListener('click', () => {
-                links.classList.remove('nav__links--open');
-                document.body.classList.remove('nav-open');
-            })
-        );
-    }
-
-    // ============================================
-    // FAQ ACCORDION
-    // ============================================
-    function setupFaq() {
-        document.querySelectorAll('[data-faq]').forEach((card) => {
-            const question = card.querySelector('.faq-card__q');
-            if (!question) return;
-            question.addEventListener('click', () => {
-                const isOpen = card.classList.contains('open');
-                document.querySelectorAll('[data-faq].open').forEach((c) => c.classList.remove('open'));
-                if (!isOpen) card.classList.add('open');
-            });
-        });
-    }
-
-    // ============================================
-    // SCROLL REVEAL
-    // ============================================
-    function observeReveal(scope) {
-        if (!('IntersectionObserver' in window)) {
-            (scope || document).querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
-            return;
-        }
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    io.unobserve(entry.target);
+    /* ---------------- FAQ accordion ---------------- */
+    function initFaq() {
+        document.querySelectorAll('[data-faq]').forEach(function (item) {
+            var btn = item.querySelector('.faq__q');
+            var answer = item.querySelector('.faq__a');
+            if (!btn || !answer) return;
+            btn.addEventListener('click', function () {
+                var isOpen = item.classList.contains('is-open');
+                document.querySelectorAll('[data-faq].is-open').forEach(function (other) {
+                    other.classList.remove('is-open');
+                    other.querySelector('.faq__q').setAttribute('aria-expanded', 'false');
+                    other.querySelector('.faq__a').style.maxHeight = '';
+                });
+                if (!isOpen) {
+                    item.classList.add('is-open');
+                    btn.setAttribute('aria-expanded', 'true');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
                 }
             });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-        (scope || document).querySelectorAll('[data-reveal]:not(.is-visible)').forEach((el) => io.observe(el));
-    }
-
-    // ============================================
-    // PRICING PAGE FILTERS
-    // ============================================
-    function setupFilters() {
-        const filterBar = document.querySelector('[data-filter-bar]');
-        const grid = document.querySelector('[data-filterable]');
-        if (!filterBar || !grid) return;
-
-        filterBar.addEventListener('click', (event) => {
-            const chip = event.target.closest('.filter-chip');
-            if (!chip) return;
-            filterBar.querySelectorAll('.filter-chip').forEach((c) => c.classList.remove('active'));
-            chip.classList.add('active');
-            const filter = chip.dataset.filter;
-
-            const ids = filter === 'all'
-                ? (window.fullCatalogOrder || Object.keys(window.productCatalog))
-                : (window.catalogCategories || []).find((c) => c.id === filter)?.ids || [];
-
-            grid.dataset.products = ids.join(',');
-            renderGrid(grid);
         });
     }
 
-    // ============================================
-    // BOOT
-    // ============================================
+    /* ---------------- scroll reveal ---------------- */
+    var revealObserver = null;
+
+    function observeReveal(scope) {
+        var els = (scope || document).querySelectorAll('[data-reveal]:not(.is-visible)');
+        if (!('IntersectionObserver' in window) ||
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            els.forEach(function (el) { el.classList.add('is-visible'); });
+            return;
+        }
+        if (!revealObserver) {
+            revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        }
+        els.forEach(function (el) { revealObserver.observe(el); });
+    }
+
+    /* ---------------- back to top ---------------- */
+    function initBackToTop() {
+        var btn = document.querySelector('[data-back-to-top]');
+        if (!btn) return;
+        window.addEventListener('scroll', function () {
+            btn.classList.toggle('is-visible', window.scrollY > 600);
+        }, { passive: true });
+        btn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    /* ---------------- boot ---------------- */
     function boot() {
-        document.querySelectorAll('[data-product-grid]').forEach(renderGrid);
-        setupModalListeners();
-        highlightActiveNav();
-        setupMobileNav();
-        setupFaq();
-        setupFilters();
+        initTheme();
+        initNav();
+        initModal();
+        initFaq();
+        initBackToTop();
+        document.querySelectorAll('[data-product-grid]').forEach(initGrid);
         observeReveal();
-        const yearEl = document.getElementById('year');
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
+        var year = document.getElementById('year');
+        if (year) year.textContent = new Date().getFullYear();
     }
 
     if (document.readyState === 'loading') {
@@ -509,5 +404,5 @@
         boot();
     }
 
-    window.openProductModal = openProductModal;
+    window.openProductModal = openModal;
 })();
