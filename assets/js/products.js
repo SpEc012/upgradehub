@@ -191,6 +191,36 @@ window.productCatalog = {
             }
         ]
     },
+    'discord-nitro': {
+        id: 'discord-nitro',
+        name: 'Discord Nitro + Boosts',
+        category: 'discord',
+        categoryLabel: 'Discord',
+        icon: 'discord',
+        accent: '#5865F2',
+        tagline: '12 months · Boosts included',
+        summary: 'A full year of Nitro with server boosts included — for less than half of retail.',
+        description: 'One year of Discord Nitro on your own account: bigger uploads, HD streaming, custom emojis everywhere, animated avatar and profile themes — with your included server boosts ready to drop on any server you like.',
+        featuredPlan: 'year',
+        features: [
+            'Full Nitro perks for 12 months',
+            'Server boosts included',
+            '500MB uploads + 4K/60fps streaming',
+            'Custom emojis & soundboard everywhere',
+            'Animated avatar, banner and profile themes',
+            'Activated on your own account + warranty'
+        ],
+        plans: [
+            {
+                id: 'year',
+                label: '12 Months · Nitro + Boosts',
+                promoPrice: 40,
+                originalPrice: 100,
+                billingLabel: '/yr',
+                description: 'A full year of Discord Nitro with your server boosts included. Replacement warranty for the whole term.'
+            }
+        ]
+    },
     'hbo-max': {
         id: 'hbo-max',
         name: 'HBO Max',
@@ -471,6 +501,7 @@ window.fullCatalogOrder = [
     'youtube',
     'prime-video',
     'discord-boosts',
+    'discord-nitro',
     'hbo-max',
     'peacock',
     'paramount',
