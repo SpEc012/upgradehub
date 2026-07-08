@@ -68,13 +68,14 @@
         }
 
         function seed() {
-            var count = Math.min(110, Math.floor((width * height) / 16000));
+            var count = Math.min(140, Math.max(60, Math.floor((width * height) / 14000)));
             stars = [];
             for (var i = 0; i < count; i++) {
                 stars.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
                     r: Math.random() * 1.1 + 0.3,
+                    depth: Math.random() * 0.7 + 0.3,
                     tint: Math.random() < 0.12 ? '167,139,250' : '235,238,255',
                     phase: Math.random() * Math.PI * 2,
                     speed: Math.random() * 0.008 + 0.003
@@ -96,12 +97,18 @@
         function draw(once) {
             ctx.clearRect(0, 0, width, height);
 
+            var scroll = window.scrollY || 0;
             for (var i = 0; i < stars.length; i++) {
                 var s = stars[i];
                 s.phase += s.speed;
+                s.y += 0.02 * s.depth; // slow downward drift
+                if (s.y > height + 2) s.y = -2;
                 var a = 0.22 + (Math.sin(s.phase) + 1) * 0.2; // 0.22–0.62
+                // deeper stars scroll slower for a gentle parallax
+                var py = s.y - scroll * 0.05 * s.depth;
+                py = ((py % height) + height) % height;
                 ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.arc(s.x, py, s.r, 0, Math.PI * 2);
                 ctx.fillStyle = 'rgba(' + s.tint + ',' + a.toFixed(2) + ')';
                 ctx.fill();
             }
